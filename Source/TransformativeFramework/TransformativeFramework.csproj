@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88BAB780-94A1-4087-B2EC-B1320AFA40CD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoonyLadle.TFs</RootNamespace>
+    <AssemblyName>TransformativeFramework</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\..\_My Actual Documents\RimWorld Modding\Libraries\0Harmony.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ThingComps\CompTFTracker.cs" />
+    <Compile Include="HarmonyPatches\HarmonyPatch_PawnStoryTracker_Skincolor_Getter.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_ChangeTrait.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_Linked.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_HairColor.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_SkinColor.cs" />
+    <Compile Include="Utilities\TraitOperation.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_Random.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TransformationCondition.cs" />
+    <Compile Include="TransformationParts\TransformationPart.cs" />
+    <Compile Include="Utilities\ColorUtility.cs" />
+    <Compile Include="Utilities\MathUtility.cs" />
+    <Compile Include="WaysToTransform\HediffCompProperties_Transformative.cs" />
+    <Compile Include="WaysToTransform\HediffComp_Transformative.cs" />
+    <Compile Include="MyStaticConstructor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThingComps\CompProperties_TFTracker.cs" />
+    <Compile Include="Transformation.cs" />
+    <Compile Include="WaysToTransform\IngestionOutcomeDoer_InstantTFs.cs" />
+    <Compile Include="Utilities\TraitUtility.cs" />
+    <Compile Include="TransformationDef.cs" />
+    <Compile Include="Utilities\ConflictResolutionMode.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

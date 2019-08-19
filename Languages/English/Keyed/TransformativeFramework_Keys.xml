@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<LanguageData>
+  <TFFramework_MessageTraitChanged>{0} has gone from {1} to {2} because of {3}.</TFFramework_MessageTraitChanged>
+  <TFFramework_MessageTraitLost>{0} is no longer {1} because of {2}.</TFFramework_MessageTraitLost>
+  <TFFramework_MessageTraitGained>{0} is now {1} because of {2}.</TFFramework_MessageTraitGained>
+</LanguageData>
