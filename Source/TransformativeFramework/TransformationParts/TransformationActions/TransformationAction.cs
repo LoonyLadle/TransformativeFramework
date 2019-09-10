@@ -6,7 +6,7 @@ using Verse;
 
 namespace LoonyLadle.TFs
 {
-   public abstract class TransformationAction : TransformationPart, ILoadReferenceable
+   public abstract class TransformationAction : TransformationPart, IExposable, ILoadReferenceable
    {
       public bool ignoreInConditions;
       public MessageTypeDef messageType;
@@ -29,6 +29,11 @@ namespace LoonyLadle.TFs
       {
          // Placeholder. REPLACE THIS BEFORE RELEASE!
          return GetType().ToString() + Transformation.actions.IndexOf(this) + "_" + Transformation.Def.defName + Transformation.Def.transformations.IndexOf(Transformation);
+      }
+
+      public virtual void ExposeData()
+      {
+         // Nothing to save, but LookMode.Reference doesn't work properly without this.
       }
    }
 }
