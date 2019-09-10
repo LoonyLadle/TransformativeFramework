@@ -33,12 +33,11 @@ namespace LoonyLadle.TFs
          {
             if (colorTargets == null)
             {
-               Log.Message("Creating new colorTargets because existing one is null.");
                colorTargets = new Dictionary<TransformationAction, Color>();
             }
          }
 
-         (base.parent as Pawn).Drawer.renderer.graphics.ResolveAllGraphics();
+         (parent as Pawn).Drawer.renderer.graphics.ResolveAllGraphics();
       }
    }
 }

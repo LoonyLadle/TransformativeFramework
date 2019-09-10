@@ -16,17 +16,18 @@ namespace LoonyLadle.TFs
       {
          Pawn pawn = (Pawn)typeof(Pawn_StoryTracker).GetField("pawn", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
          CompTFTracker tfData = pawn.GetComp<CompTFTracker>();
-         
-         // Is a TF skin color defined?
-         if (tfData?.skinColor != null)
+
+         if (tfData?.skinColor == Color.clear || tfData?.skinColor == null)
          {
-            // Set our result to the transformed color.
+            // Allow the original method.
+            return true;
+         }
+         else
+         {
             __result = tfData.skinColor;
             // Don't allow original to execute.
             return false;
          }
-         // Allow the original method.
-         else return true;
       }
    }
 }

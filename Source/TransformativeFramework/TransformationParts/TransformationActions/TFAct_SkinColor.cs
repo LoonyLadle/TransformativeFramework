@@ -1,4 +1,4 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -60,6 +60,8 @@ namespace LoonyLadle.TFs
 
          tracker.skinColor = ColorUtility.MoveTowards(pawn.story.hairColor, color, delta);
          tracker.skinColorPower = power;
+         pawn.Drawer.renderer.graphics.ResolveAllGraphics();
+         PortraitsCache.SetDirty(pawn);
          yield break;
       }
    }
