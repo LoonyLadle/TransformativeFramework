@@ -6,7 +6,7 @@ using Verse;
 
 namespace LoonyLadle.TFs
 {
-   public abstract class TransformationAction : TransformationPart
+   public abstract class TransformationAction : TransformationPart, ILoadReferenceable
    {
       public bool ignoreInConditions;
       public MessageTypeDef messageType;
@@ -23,6 +23,12 @@ namespace LoonyLadle.TFs
          {
             messageType = MessageTypeDefOf.PositiveEvent;
          }
+      }
+
+      public string GetUniqueLoadID()
+      {
+         // Placeholder. REPLACE THIS BEFORE RELEASE!
+         return GetType().ToString() + Transformation.actions.IndexOf(this) + "_" + Transformation.Def.defName + Transformation.Def.transformations.IndexOf(Transformation);
       }
    }
 }
