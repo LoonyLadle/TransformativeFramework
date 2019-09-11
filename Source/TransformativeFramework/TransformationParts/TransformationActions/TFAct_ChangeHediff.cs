@@ -10,33 +10,38 @@ namespace LoonyLadle.TFs
 {
    public class TFAct_ChangeHediff : TransformationAction
    {
-      // The def of the trait to change.
+      // The def of the hediff to change.
       public HediffDef hediff;
-      // The target degree of the trait.
-      public float severity;
-      // How much to move the trait's degree towards the target degree.
-      public float delta = float.MaxValue;
-      // The intent of changing the trait.
+      // The target severity of the hediff.
+      public float target = float.MaxValue;
+      // How much to move the hediff's severity towards the target severity.
+      public float delta;
+      // The intent of changing the hediff.
       // - Valid flags: Increase, Decrease, Remove
       public Operation operation = Operation.Normal;
-      /*
-      private const string MessageTraitChanged = "TFFramework_MessageTraitChanged";
-      private const string MessageTraitGained = "TFFramework_MessageTraitGained";
-      private const string MessageTraitLost = "TFFramework_MessageTraitLost";
-      */
+
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
-         if (pawn.story?.traits == null)
+         Hediff realHediff = pawn.health.hediffSet.GetFirstHediffOfDef(hediff);
+
+         if (realHediff != null)
          {
-            return false;
-         }
-         else if (!pawn.story.traits.HasTrait(hediff))
-         {
-            if ((operation & Operation.Remove) == Operation.Remove)
+            if (realHediff.Severity == target)
             {
                return false;
             }
-            if (conflicts == ConflictResolutionMode.Fail && pawn.story.traits.allTraits.Any(t => hediff.ConflictsWith(t)))
+            if ((operation == Operation.Increase) && (realHediff.Severity == realHediff.def.maxSeverity))
+            {
+               return false;
+            }
+            if ((operation == Operation.Decrease) && (realHediff.Severity == realHediff.def.minSeverity))
+            {
+               return false;
+            }
+         }
+         else
+         {
+            if ((operation & Operation.Remove) == Operation.Remove)
             {
                return false;
             }
@@ -50,38 +55,28 @@ namespace LoonyLadle.TFs
 
          if (realHediff != null)
          {
-            float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(realHediff.Severity, severity, delta, operation);
-
-            // If our adjusted degree is zero AND EITHER our operational intent is to remove the trait OR no degree data exists at zero, remove the trait.
-            if ((adjustedSeverity == 0) && (((operation & Operation.Remove) == Operation.Remove) || (!realHediff.def.degreeDatas.Any(data => data.degree == adjustedSeverity))))
+            float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(realHediff.Severity, target, delta, operation);
+            
+            if ((adjustedSeverity == 0) && ((operation & Operation.Remove) == Operation.Remove))
             {
-               yield return MessageTraitLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
-               pawn.story.traits.LoseTrait(realHediff);
+               //yield return MessageTraitLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
+               pawn.health.RemoveHediff(realHediff);
             }
-            else if (realHediff.Degree == adjustedSeverity)
+            else if (realHediff.Severity != adjustedSeverity)
             {
-               //Log.Message("Existing trait degree equals adjusted degree. No action taken.");
-               // WELL IF NO ACTION IS BEING TAKEN WHY ARE WE EVEN HERE? Add a new component to CheckPartWorker before release.
-            }
-            else
-            {
-               yield return MessageTraitChanged.Translate(pawn.LabelShort, realHediff.Label, hediff.DataAtDegree(adjustedSeverity).label, ParseCause(cause));
-               pawn.story.traits.SetDegreeOfTrait(realHediff, adjustedSeverity);
+               //yield return MessageTraitChanged.Translate(pawn.LabelShort, realHediff.Label, hediff.DataAtDegree(adjustedSeverity).label, ParseCause(cause));
+               realHediff.Severity = adjustedSeverity;
             }
          }
          else
          {
-            int epsilon = Math.Abs(delta);
-            
-            epsilon *= Math.Sign(delta);
-
-            if (epsilon != 0)
+            //if (epsilon != 0)
             {
-               int adjustedDegree = MathUtility.MoveTowardsOperationClamped(0, severity, epsilon, operation);
+               float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(0, target, delta, operation);
                
-               Trait newTrait = new Trait(hediff, adjustedDegree);
-               yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, ParseCause(cause));
-               pawn.story.traits.GainTrait(newTrait);
+               Hediff newHediff = HediffMaker.MakeHediff(hediff, pawn);
+               //yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, ParseCause(cause));
+               pawn.health.AddHediff(newHediff);
             }
          }
          // We're done here.
