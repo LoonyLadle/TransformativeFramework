@@ -11,5 +11,7 @@ namespace LoonyLadle.TFs
          // Placeholder implementation.
          return new Color(Mathf.MoveTowards(current.r, target.r, amount), Mathf.MoveTowards(current.g, target.g, amount), Mathf.MoveTowards(current.b, target.b, amount));
       }
+
+      public static bool NullOrClear(this Color color) => (color == null) || (color == Color.clear);
    }
 }

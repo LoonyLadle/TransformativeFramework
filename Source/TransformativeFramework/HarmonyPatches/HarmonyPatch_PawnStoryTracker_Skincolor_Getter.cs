@@ -17,7 +17,7 @@ namespace LoonyLadle.TFs
          Pawn pawn = (Pawn)typeof(Pawn_StoryTracker).GetField("pawn", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 
-         if (tracker?.skinColor == Color.clear || tracker?.skinColor == null)
+         if (tracker?.skinColor.NullOrClear() ?? true)
          {
             // Allow the original method.
             return true;

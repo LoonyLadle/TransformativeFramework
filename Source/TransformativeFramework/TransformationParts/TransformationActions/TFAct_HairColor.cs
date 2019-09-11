@@ -12,7 +12,7 @@ namespace LoonyLadle.TFs
       // A color generator used to determine the hair color.
       public ColorGenerator colorGenerator;
       // How much to change with each transformation.
-      public float delta = 1f;
+      public float delta = float.MaxValue;
       // Colors with a higher power cannot be overridden by lower ones.
       public float power = 1f;
 
@@ -47,7 +47,7 @@ namespace LoonyLadle.TFs
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 
-         if (tracker.hairColorOriginal == null)
+         if (tracker.hairColorOriginal.NullOrClear())
          {
             tracker.hairColorOriginal = pawn.story.hairColor;
          }
