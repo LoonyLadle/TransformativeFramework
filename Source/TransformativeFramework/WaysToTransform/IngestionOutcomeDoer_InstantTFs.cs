@@ -9,10 +9,22 @@ namespace LoonyLadle.TFs
    {
       public TransformationDef transformation;
       public int number = 1;
+      public int doToAddictedMin = 1;
+      public int doToAddictedMax = 1;
 
       protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
       {
-         transformation.DoTransformations(pawn, ingested, number);
+         if (ingested == null)
+         {
+            if (doToGeneratedPawnIfAddicted)
+            {
+               transformation.DoTransformations(pawn, null, Rand.Range(doToAddictedMin, doToAddictedMax));
+            }
+         }
+         else
+         {
+            transformation.DoTransformations(pawn, ingested, number);
+         }
       }
    }
 }
