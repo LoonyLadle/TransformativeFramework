@@ -33,7 +33,17 @@ namespace LoonyLadle.TFs
          {
             return false;
          }
-         else if (!pawn.story.traits.HasTrait(trait))
+
+         Trait realTrait = pawn.story.traits.GetTrait(trait);
+
+         if (realTrait != null)
+         {
+            if (realTrait.Degree == target)
+            {
+               return false;
+            }
+         }
+         else
          {
             if ((operation & Operation.Remove) == Operation.Remove)
             {
@@ -60,11 +70,6 @@ namespace LoonyLadle.TFs
             {
                yield return MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, ParseCause(cause));
                pawn.story.traits.LoseTrait(realTrait);
-            }
-            else if (realTrait.Degree == adjustedDegree)
-            {
-               //Log.Message("Existing trait degree equals adjusted degree. No action taken.");
-               // WELL IF NO ACTION IS BEING TAKEN WHY ARE WE EVEN HERE? Add a new component to CheckPartWorker before release.
             }
             else
             {
