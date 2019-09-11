@@ -47,18 +47,18 @@ namespace LoonyLadle.TFs
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 
-         Color color;
+         Color target;
          if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
          {
-            color = colorTarget;
+            target = colorTarget;
          }
          else
          {
-            color = colorGenerator.NewRandomizedColor();
-            tracker.colorTargets.Add(this, color);
+            target = colorGenerator.NewRandomizedColor();
+            tracker.colorTargets.Add(this, target);
          }
 
-         tracker.skinColor = ColorUtility.MoveTowards(pawn.story.hairColor, color, delta);
+         tracker.skinColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
          tracker.skinColorPower = power;
          pawn.Drawer.renderer.graphics.ResolveAllGraphics();
          PortraitsCache.SetDirty(pawn);

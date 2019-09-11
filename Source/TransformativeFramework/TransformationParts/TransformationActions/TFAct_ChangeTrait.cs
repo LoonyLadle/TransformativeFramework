@@ -13,7 +13,7 @@ namespace LoonyLadle.TFs
       // The def of the trait to change.
       public TraitDef trait;
       // The target degree of the trait.
-      public int degree;
+      public int target;
       // How much to move the trait's degree towards the target degree.
       public int delta = int.MaxValue;
       // How to handle conflicts.
@@ -53,7 +53,7 @@ namespace LoonyLadle.TFs
 
          if (realTrait != null)
          {
-            int adjustedDegree = MathUtility.MoveTowardsOperationClamped(realTrait.Degree, degree, delta, operation);
+            int adjustedDegree = MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, delta, operation);
 
             // If our adjusted degree is zero AND EITHER our operational intent is to remove the trait OR no degree data exists at zero, remove the trait.
             if ((adjustedDegree == 0) && (((operation & Operation.Remove) == Operation.Remove) || (!realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree))))
@@ -111,7 +111,7 @@ namespace LoonyLadle.TFs
 
             if (epsilon != 0)
             {
-               int adjustedDegree = MathUtility.MoveTowardsOperationClamped(0, degree, epsilon, operation);
+               int adjustedDegree = MathUtility.MoveTowardsOperationClamped(0, target, epsilon, operation);
                
                Trait newTrait = new Trait(trait, adjustedDegree);
                yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, ParseCause(cause));

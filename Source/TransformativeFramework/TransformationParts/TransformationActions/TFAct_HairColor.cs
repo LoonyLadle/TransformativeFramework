@@ -52,18 +52,18 @@ namespace LoonyLadle.TFs
             tracker.hairColorOriginal = pawn.story.hairColor;
          }
 
-         Color color;
+         Color target;
          if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
          {
-            color = colorTarget;
+            target = colorTarget;
          }
          else
          {
-            color = colorGenerator.NewRandomizedColor();
-            tracker.colorTargets.Add(this, color);
+            target = colorGenerator.NewRandomizedColor();
+            tracker.colorTargets.Add(this, target);
          }
 
-         pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, color, delta);
+         pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
          tracker.hairColorPower = power;
          pawn.Drawer.renderer.graphics.ResolveAllGraphics();
          PortraitsCache.SetDirty(pawn);
