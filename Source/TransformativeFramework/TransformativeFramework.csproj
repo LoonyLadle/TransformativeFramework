@@ -58,7 +58,7 @@
     <Compile Include="TransformationParts\TransformationActions\TFAct_Linked.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HairColor.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_SkinColor.cs" />
-    <Compile Include="Utilities\TraitOperation.cs" />
+    <Compile Include="Utilities\Operation.cs" />
     <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
