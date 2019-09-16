@@ -82,5 +82,18 @@ namespace LoonyLadle.TFs
          // We're done here.
          yield break;
       }
+
+      public override IEnumerable<string> ConfigErrors()
+      {
+         foreach (string error in base.ConfigErrors())
+         {
+            yield return error;
+         }
+         if (delta == 0)
+         {
+            yield return "delta is zero";
+         }
+         yield break;
+      }
    }
 }
