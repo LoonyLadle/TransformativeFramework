@@ -57,7 +57,7 @@ namespace LoonyLadle.TFs
          {
             float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(realHediff.Severity, target, delta, operation);
             
-            if ((adjustedSeverity == 0) && ((operation & Operation.Remove) == Operation.Remove))
+            if ((adjustedSeverity <= 0) && ((operation & Operation.Remove) == Operation.Remove))
             {
                //yield return MessageTraitLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
                pawn.health.RemoveHediff(realHediff);
