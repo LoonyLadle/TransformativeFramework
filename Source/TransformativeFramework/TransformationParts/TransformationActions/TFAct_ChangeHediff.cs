@@ -20,6 +20,10 @@ namespace LoonyLadle.TFs
       // - Valid flags: Increase, Decrease, Remove
       public Operation operation = Operation.Normal;
 
+      private const string MessageHediffChanged = "TFFramework_MessageHediffChanged"; // "{0}'s {1} became {2} because of {3}."
+      private const string MessageHediffGained  = "TFFramework_MessageHediffGained";  // "{0}'s gained {1} from {2}."
+      private const string MessageHediffLost    = "TFFramework_MessageHediffLost";    // "{0}'s {1} was removed by {2}."
+
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
          Hediff realHediff = pawn.health.hediffSet.GetFirstHediffOfDef(hediff);
@@ -59,13 +63,23 @@ namespace LoonyLadle.TFs
             
             if ((adjustedSeverity <= 0) && ((operation & Operation.Remove) == Operation.Remove))
             {
-               //yield return MessageTraitLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
+               yield return MessageHediffLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
                pawn.health.RemoveHediff(realHediff);
             }
             else if (realHediff.Severity != adjustedSeverity)
             {
-               //yield return MessageTraitChanged.Translate(pawn.LabelShort, realHediff.Label, hediff.DataAtDegree(adjustedSeverity).label, ParseCause(cause));
+               int oldIndex = realHediff.CurStageIndex;
+
                realHediff.Severity = adjustedSeverity;
+
+               if (realHediff.ShouldRemove)
+               {
+                  yield return MessageHediffLost.Translate(pawn.LabelShort, realHediff.LabelBase, ParseCause(cause));
+               }
+               else if (realHediff.CurStageIndex != oldIndex)
+               {
+                  yield return MessageHediffChanged.Translate(pawn.LabelShort, realHediff.LabelBase, realHediff.CurStage.label, ParseCause(cause));
+               }
             }
          }
          else
@@ -75,7 +89,7 @@ namespace LoonyLadle.TFs
                float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(0, target, delta, operation);
                
                Hediff newHediff = HediffMaker.MakeHediff(hediff, pawn);
-               //yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, ParseCause(cause));
+               yield return MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, ParseCause(cause));
                pawn.health.AddHediff(newHediff);
             }
          }
