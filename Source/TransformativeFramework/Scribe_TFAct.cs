@@ -8,7 +8,7 @@ namespace LoonyLadle.TFs
 {
    public static class Scribe_TFAct
    {
-      public static void Look(ref TransformationAction_Referenceable value, string label)
+      public static void Look(ref TransformationAction value, string label)
       {
          if (Scribe.mode == LoadSaveMode.Saving)
          {
@@ -21,25 +21,25 @@ namespace LoonyLadle.TFs
          }
       }
       
-      private static TransformationAction_Referenceable MyExtractor(XmlNode subNode)
+      private static TransformationAction MyExtractor(XmlNode subNode)
       {
          if (subNode == null || subNode.InnerText == null || subNode.InnerText == "null")
          {
             return null;
          }
-         TransformationAction_Referenceable result = GetTFActs().Find(act => act.GetUniqueLoadID() == subNode.InnerText);
+         TransformationAction result = GetTFActs().Find(act => act.GetUniqueLoadID() == subNode.InnerText);
          if (result == null)
          {
-            Log.Error($"Could not load reference to {typeof(TransformationAction_Referenceable)} named {subNode.InnerText}");
+            Log.Error($"Could not load reference to {typeof(TransformationAction)} named {subNode.InnerText}");
          }
          return result;
       }
 
-      private static List<TransformationAction_Referenceable>GetTFActs()
+      private static List<TransformationAction>GetTFActs()
       {
          if (cachedTFActs == null)
          {
-            cachedTFActs = new List<TransformationAction_Referenceable>();
+            cachedTFActs = new List<TransformationAction>();
 
             foreach (TransformationDef def in DefDatabase<TransformationDef>.AllDefs)
             {
@@ -47,9 +47,9 @@ namespace LoonyLadle.TFs
                {
                   foreach (TransformationAction act in tf.actions)
                   {
-                     if (act is TransformationAction_Referenceable)
+                     if (act is TransformationAction)
                      {
-                        cachedTFActs.Add(act as TransformationAction_Referenceable);
+                        cachedTFActs.Add(act as TransformationAction);
                      }
                   }
                }
@@ -58,6 +58,6 @@ namespace LoonyLadle.TFs
          return cachedTFActs;
       }
 
-      private static List<TransformationAction_Referenceable> cachedTFActs;
+      private static List<TransformationAction> cachedTFActs;
    }
 }

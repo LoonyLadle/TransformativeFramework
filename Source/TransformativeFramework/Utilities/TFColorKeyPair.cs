@@ -11,13 +11,13 @@ namespace LoonyLadle.TFs
 {
    public class TFColorKeyPair : IExposable
    {
-      public TFColorKeyPair(TransformationAction_Referenceable action, Color color)
+      public TFColorKeyPair(TransformationAction action, Color color)
       {
          actionInt = action;
          colorInt = color;
       }
 
-      public TransformationAction_Referenceable actionInt;
+      public TransformationAction actionInt;
       public Color colorInt;
 
       public void ExposeData()

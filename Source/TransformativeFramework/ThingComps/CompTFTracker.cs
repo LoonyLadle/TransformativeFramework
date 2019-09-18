@@ -18,13 +18,21 @@ namespace LoonyLadle.TFs
 
       private List<TFColorKeyPair> colorTargets = new List<TFColorKeyPair>();
 
-      public Color GetColorTarget(TransformationAction_Referenceable action)
+      public Color GetColorTarget(TransformationAction action)
       {
          return colorTargets.Find(tfcp => tfcp.actionInt == action)?.colorInt ?? Color.clear;
       }
 
-      public void SetColorTarget(TransformationAction_Referenceable action, Color color)
+      public void SetColorTarget(TransformationAction action, Color color)
       {
+         if (action.refName.NullOrEmpty())
+         {
+            string def = action.Transformation.Def.defName;
+            string tf  = action.Transformation.Def.transformations.IndexOf(action.Transformation).ToString();
+            string act = action.Transformation.actions.IndexOf(action).ToString();
+            Log.ErrorOnce($"TransformationAction {def}.transformations[{tf}].actions[{act}] has no refName. This will cause errors during loading.", action.GetHashCode(), true);
+         }
+
          TFColorKeyPair colorTarget = colorTargets.Find(tfcp => tfcp.actionInt == action);
 
          if (colorTarget == null)

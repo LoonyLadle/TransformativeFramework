@@ -60,7 +60,6 @@
     <Compile Include="TransformationParts\TransformationActions\TFAct_HairColor.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_SkinColor.cs" />
     <Compile Include="Enums\Operation.cs" />
-    <Compile Include="TransformationParts\TransformationActions\TransformationAction_Referenceable.cs" />
     <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
