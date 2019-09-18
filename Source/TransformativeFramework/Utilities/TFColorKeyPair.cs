@@ -11,6 +11,11 @@ namespace LoonyLadle.TFs
 {
    public class TFColorKeyPair : IExposable
    {
+      public TFColorKeyPair()
+      {
+         // nothing, just needs to exist
+      }
+
       public TFColorKeyPair(TransformationAction action, Color color)
       {
          actionInt = action;
