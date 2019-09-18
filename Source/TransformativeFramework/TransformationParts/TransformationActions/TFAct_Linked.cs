@@ -35,7 +35,7 @@ namespace LoonyLadle.TFs
          {
             yield return "link is empty";
          }
-         else if (!linkDef.transformations.Any(tf => tf.anchor == link))
+         else if (!linkDef?.transformations.Any(tf => tf.anchor == link) ?? true)
          {
             yield return "link leads nowhere";
          }
