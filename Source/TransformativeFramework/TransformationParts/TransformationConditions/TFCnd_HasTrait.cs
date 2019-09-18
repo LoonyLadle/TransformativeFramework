@@ -1,8 +1,5 @@
 ﻿using RimWorld;
-using System.Text;
 using Verse;
-using System.Linq;
-using System;
 
 #pragma warning disable IDE1006 // Naming Styles
 
@@ -23,46 +20,5 @@ namespace LoonyLadle.TFs
             ? realTrait.Degree >= degreeMin && realTrait.Degree <= degreeMax 
             : false;
       }
-      /*
-      public override string GetTreeSubNode(StatRequest req)
-      {
-         if (!inspectorHidden)
-         {
-            //StringBuilder stringBuilder = new StringBuilder();
-
-            string start = (invert ? "TFFramework_CndHasTraitN" : "TFFramework_CndHasTraitI").Translate();
-            //stringBuilder.Append(start);
-
-            string label;
-
-            int min = trait.degreeDatas.Max(data => data.degree);
-            int max = trait.degreeDatas.Min(data => data.degree);
-
-            if (trait.degreeDatas.Count == 1)
-            {
-               // If only one degreeData, get its label.
-               label = trait.degreeDatas.First().label;
-            }
-            else if (degreeMin == degreeMax)
-            {
-               label = trait.DataAtDegree(degreeMin).label;
-            }
-            else if ()
-            {
-
-            }
-            else
-            {
-               // Cannot determine appropriate label; use human-readable defName.
-               label = trait.defName.Split('_').Last().HumanReadable();
-            }
-
-
-
-            //return stringBuilder.ToString();
-         }
-         return null;
-      }
-      */
    }
 }
