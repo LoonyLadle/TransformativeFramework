@@ -7,7 +7,7 @@ using Verse;
 
 namespace LoonyLadle.TFs
 {
-   public class TFAct_SkinColor : TransformationAction_Referenceable
+   public class TFAct_SkinColor : TransformationAction
    {
       // A color generator used to determine the skin color.
       public ColorGenerator colorGenerator;
@@ -19,6 +19,7 @@ namespace LoonyLadle.TFs
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
+         Color target = tracker.GetColorTarget(this);
 
          if (pawn.story == null)
          {
@@ -33,12 +34,9 @@ namespace LoonyLadle.TFs
          {
             return false;
          }
-         else if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
+         else if (!target.NullOrClear() && pawn.story.SkinColor.IndistinguishableFrom(target))
          {
-            if (pawn.story.SkinColor.IndistinguishableFrom(colorTarget))
-            {
-               return false;
-            }
+            return false;
          }
          return true;
       }
@@ -46,19 +44,15 @@ namespace LoonyLadle.TFs
       protected override IEnumerable<string> ApplyPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
-
-         Color target;
-         if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
-         {
-            target = colorTarget;
-         }
-         else
+         
+         Color target = tracker.GetColorTarget(this);
+         if (target.NullOrClear())
          {
             target = colorGenerator.NewRandomizedColor();
-            tracker.colorTargets.Add(this, target);
+            tracker.SetColorTarget(this, target);
          }
 
-         tracker.skinColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
+         tracker.skinColor = ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta);
          tracker.skinColorPower = power;
          pawn.Drawer.renderer.graphics.ResolveAllGraphics();
          PortraitsCache.SetDirty(pawn);
