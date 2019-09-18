@@ -16,11 +16,11 @@ namespace LoonyLadle.TFs
       public Color skinColor;
       public float skinColorPower;
 
-      public Dictionary<TransformationAction, Color> colorTargets = new Dictionary<TransformationAction, Color>();
+      public Dictionary<TransformationAction_Referenceable, Color> colorTargets = new Dictionary<TransformationAction_Referenceable, Color>();
 
       public override void PostExposeData()
       {
-         List<TransformationAction> keyList = new List<TransformationAction>();
+         List<TransformationAction_Referenceable> keyList = new List<TransformationAction_Referenceable>();
          List<Color> valList = new List<Color>();
 
          Scribe_Values.Look(ref skinColor, nameof(skinColor));
@@ -33,7 +33,7 @@ namespace LoonyLadle.TFs
          {
             if (colorTargets == null)
             {
-               colorTargets = new Dictionary<TransformationAction, Color>();
+               colorTargets = new Dictionary<TransformationAction_Referenceable, Color>();
             }
          }
 

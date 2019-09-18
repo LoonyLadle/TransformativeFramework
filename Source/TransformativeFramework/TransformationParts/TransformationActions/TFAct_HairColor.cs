@@ -7,7 +7,7 @@ using Verse;
 
 namespace LoonyLadle.TFs
 {
-   public class TFAct_HairColor : TransformationAction
+   public class TFAct_HairColor : TransformationAction_Referenceable
    {
       // A color generator used to determine the hair color.
       public ColorGenerator colorGenerator;
