@@ -25,7 +25,7 @@ namespace LoonyLadle.TFs
 
       public void SetColorTarget(TransformationAction_Referenceable action, Color color)
       {
-         var colorTarget = colorTargets.Find(tfcp => tfcp.actionInt == action);
+         TFColorKeyPair colorTarget = colorTargets.Find(tfcp => tfcp.actionInt == action);
 
          if (colorTarget == null)
          {
