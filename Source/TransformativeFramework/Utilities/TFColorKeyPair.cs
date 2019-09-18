@@ -22,7 +22,7 @@ namespace LoonyLadle.TFs
 
       public void ExposeData()
       {
-         Scribe_References.Look(ref actionInt, nameof(actionInt));
+         Scribe_TFAct.Look(ref actionInt, nameof(actionInt));
          Scribe_Values.Look(ref colorInt, nameof(colorInt));
       }
    }

@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scribe_TFAct.cs" />
     <Compile Include="ThingComps\CompTFTracker.cs" />
     <Compile Include="HarmonyPatches\HarmonyPatch_PawnStoryTracker_Skincolor_Getter.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_ChangeHediff.cs" />
