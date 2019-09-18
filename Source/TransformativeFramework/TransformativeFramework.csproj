@@ -68,6 +68,7 @@
     <Compile Include="TransformationParts\TransformationPart.cs" />
     <Compile Include="Utilities\ColorUtility.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
+    <Compile Include="Utilities\TFColorKeyPair.cs" />
     <Compile Include="WaysToTransform\HediffCompProperties_Transformative.cs" />
     <Compile Include="WaysToTransform\HediffComp_Transformative.cs" />
     <Compile Include="MyStaticConstructor.cs" />

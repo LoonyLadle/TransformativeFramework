@@ -16,24 +16,40 @@ namespace LoonyLadle.TFs
       public Color skinColor;
       public float skinColorPower;
 
-      public Dictionary<TransformationAction_Referenceable, Color> colorTargets = new Dictionary<TransformationAction_Referenceable, Color>();
+      private List<TFColorKeyPair> colorTargets = new List<TFColorKeyPair>();
+
+      public Color GetColorTarget(TransformationAction_Referenceable action)
+      {
+         return colorTargets.Find(tfcp => tfcp.actionInt == action)?.colorInt ?? Color.clear;
+      }
+
+      public void SetColorTarget(TransformationAction_Referenceable action, Color color)
+      {
+         var colorTarget = colorTargets.Find(tfcp => tfcp.actionInt == action);
+
+         if (colorTarget == null)
+         {
+            colorTargets.Add(new TFColorKeyPair(action, color));
+         }
+         else
+         {
+            colorTarget.colorInt = color;
+         }
+      }
 
       public override void PostExposeData()
       {
-         List<TransformationAction_Referenceable> keyList = new List<TransformationAction_Referenceable>();
-         List<Color> valList = new List<Color>();
-
          Scribe_Values.Look(ref skinColor, nameof(skinColor));
          Scribe_Values.Look(ref skinColorPower, nameof(skinColorPower));
          Scribe_Values.Look(ref hairColorOriginal, nameof(hairColorOriginal));
          Scribe_Values.Look(ref hairColorPower, nameof(hairColorPower));
-         Scribe_Collections.Look(ref colorTargets, nameof(colorTargets), LookMode.Reference, LookMode.Value, ref keyList, ref valList);
+         Scribe_Collections.Look(ref colorTargets, nameof(colorTargets), LookMode.Deep);
 
          if (Scribe.mode == LoadSaveMode.LoadingVars)
          {
             if (colorTargets == null)
             {
-               colorTargets = new Dictionary<TransformationAction_Referenceable, Color>();
+               colorTargets = new List<TFColorKeyPair>();
             }
          }
       }
