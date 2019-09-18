@@ -17,7 +17,7 @@ namespace LoonyLadle.TFs
 
       protected abstract IEnumerable<string> ApplyPartWorker(Pawn pawn, object cause);
 
-      protected override void ResolveReferencesSpecial()
+      public override void ResolveReferences()
       {
          if (messageType == null)
          {

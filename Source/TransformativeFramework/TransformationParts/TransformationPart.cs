@@ -6,28 +6,18 @@ using Verse;
 
 namespace LoonyLadle.TFs
 {
-   public abstract class TransformationPart
+   public abstract class TransformationPart : Editable
    {
       public Transformation Transformation { get; private set; }
 
       public abstract bool CheckPart(Pawn pawn, object cause);
 
       protected abstract bool CheckPartWorker(Pawn pawn, object cause);
-      
-      public virtual IEnumerable<string> ConfigErrors()
-      {
-         yield break;
-      }
 
       public void ResolveReferences(Transformation parent)
       {
          Transformation = parent;
-         ResolveReferencesSpecial();
-      }
-
-      protected virtual void ResolveReferencesSpecial()
-      {
-         // Nothing
+         ResolveReferences();
       }
 
       public static string ParseCause(object cause)

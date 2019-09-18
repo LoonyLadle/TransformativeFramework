@@ -42,9 +42,9 @@ namespace LoonyLadle.TFs
          yield break;
       }
 
-      protected override void ResolveReferencesSpecial()
+      public override void ResolveReferences()
       {
-         base.ResolveReferencesSpecial();
+         base.ResolveReferences();
 
          if (linkDef == null)
          {
