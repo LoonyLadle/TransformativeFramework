@@ -10,8 +10,6 @@ namespace LoonyLadle.TFs
    {
       public List<Transformation> transformations = new List<Transformation>();
 
-      private const string StatLabelDef = "TFFramework_StatLabelDef";
-
       public void DoTransformations(Pawn pawn, object cause, int number)
       {
          for (int i = 0; i < number; i++)
@@ -35,12 +33,10 @@ namespace LoonyLadle.TFs
          {
             yield return error;
          }
-
          if (label.NullOrEmpty())
          {
             yield return "no label";
          }
-
          if (transformations.NullOrEmpty())
          {
             yield return "has no transformations";
