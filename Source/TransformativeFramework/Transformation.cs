@@ -26,7 +26,6 @@ namespace LoonyLadle.TFs
                return false;
             }
          }
-         
          // Next, check our actions. Unlike conditions, only one action needs to be true.
          foreach (TransformationAction action in actions)
          {
@@ -35,7 +34,6 @@ namespace LoonyLadle.TFs
                return true;
             }
          }
-         
          // If we got this far, no actions returned true. This means there's nothing for the TF to do!
          return false;
       }
@@ -69,7 +67,6 @@ namespace LoonyLadle.TFs
                yield return $".conditions[{i}] {error}";
             }
          }
-         
          if (actions.NullOrEmpty())
          {
             yield return " has no actions";
