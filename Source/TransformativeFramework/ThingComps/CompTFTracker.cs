@@ -36,8 +36,6 @@ namespace LoonyLadle.TFs
                colorTargets = new Dictionary<TransformationAction_Referenceable, Color>();
             }
          }
-
-         (parent as Pawn).Drawer.renderer.graphics.ResolveAllGraphics();
       }
    }
 }
