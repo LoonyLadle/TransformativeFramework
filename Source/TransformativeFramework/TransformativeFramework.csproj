@@ -56,7 +56,6 @@
     <Compile Include="HarmonyPatches\HarmonyPatch_PawnStoryTracker_Skincolor_Getter.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HediffChange.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HediffRemove.cs" />
-    <Compile Include="TransformationParts\TransformationActions\TFAct_HediffAdd.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_ChangeTrait.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_Linked.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HairColor.cs" />

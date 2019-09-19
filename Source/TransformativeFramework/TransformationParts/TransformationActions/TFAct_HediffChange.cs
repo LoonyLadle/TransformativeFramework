@@ -29,12 +29,21 @@ namespace LoonyLadle.TFs
 
          foreach (BodyPartRecord part in parts)
          {
-            foreach (Hediff hediff in hediffs.Where(h => h.Part == part))
+            IEnumerable<Hediff> partHediffs = hediffs.Where(h => h.Part == part);
+
+            if (partHediffs.Any())
             {
-               if (hediff.Severity != target)
+               foreach (Hediff realHediff in partHediffs)
                {
-                  return true;
+                  if (realHediff.Severity != target)
+                  {
+                     return true;
+                  }
                }
+            }
+            else
+            {
+               return true;
             }
          }
          return false;
@@ -42,26 +51,46 @@ namespace LoonyLadle.TFs
 
       protected override IEnumerable<string> ApplyPartWorker(Pawn pawn, object cause)
       {
+         IEnumerable<Hediff> hediffs = pawn.health.hediffSet.hediffs.Where(h => h.def == hediff);
          IEnumerable<BodyPartRecord> parts = HediffUtility.GetPartsToAffect(pawn, partsToAffect);
          
-         foreach (Hediff realHediff in pawn.health.hediffSet.hediffs.Where(h => h.def == hediff && parts.Contains(h.Part)))
+         foreach (BodyPartRecord part in parts)
          {
-            float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(realHediff.Severity, target, delta, operation);
+            IEnumerable<Hediff> partHediffs = hediffs.Where(h => h.Part == part);
 
-            if (realHediff.Severity != adjustedSeverity)
+            if (partHediffs.Any())
             {
-               int oldIndex = realHediff.CurStageIndex;
-
-               realHediff.Severity = adjustedSeverity;
-
-               if (realHediff.ShouldRemove)
+               foreach (Hediff realHediff in partHediffs)
                {
-                  yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.LabelBase, ParseCause(cause));
+                  float adjustedSeverity = MathUtility.MoveTowardsOperationClamped(realHediff.Severity, target, delta, operation);
+
+                  if (realHediff.Severity != adjustedSeverity)
+                  {
+                     int oldIndex = realHediff.CurStageIndex;
+
+                     realHediff.Severity = adjustedSeverity;
+
+                     if (realHediff.ShouldRemove)
+                     {
+                        yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.LabelBase, ParseCause(cause));
+                     }
+                     else if (realHediff.CurStageIndex != oldIndex)
+                     {
+                        yield return HediffUtility.MessageHediffChanged.Translate(pawn.LabelShort, realHediff.LabelBase, realHediff.CurStage.label, ParseCause(cause));
+                     }
+                  }
                }
-               else if (realHediff.CurStageIndex != oldIndex)
+            }
+            else
+            {
+               Hediff newHediff = HediffMaker.MakeHediff(hediff, pawn);
+
+               if (delta != default(float))
                {
-                  yield return HediffUtility.MessageHediffChanged.Translate(pawn.LabelShort, realHediff.LabelBase, realHediff.CurStage.label, ParseCause(cause));
+                  newHediff.Severity = MathUtility.MoveTowardsOperationClamped(0, target, delta, operation);
                }
+               yield return HediffUtility.MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, ParseCause(cause));
+               pawn.health.AddHediff(newHediff);
             }
          }
          // We're done here.
