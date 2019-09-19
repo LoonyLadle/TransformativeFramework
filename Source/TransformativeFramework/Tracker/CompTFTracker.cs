@@ -16,8 +16,6 @@ namespace LoonyLadle.TFs
       public Color skinColor;
       public float skinColorPower;
 
-      private List<TFDataObject> savedData = new List<TFDataObject>();
-
       public T LoadData<T>(TransformationAction owner, string key)
       {
          Dictionary<string, object> data = savedData.Find(sd => sd.owner == owner)?.data;
@@ -31,7 +29,7 @@ namespace LoonyLadle.TFs
             string def = owner.Transformation.Def.defName;
             string tf  = owner.Transformation.Def.transformations.IndexOf(owner.Transformation).ToString();
             string act = owner.Transformation.actions.IndexOf(owner).ToString();
-            Log.Warning($"TransformationAction {def}.transformations[{tf}].actions[{act}] has no refName. This will cause errors during loading.");
+            Log.Warning($"TransformationAction of type {owner.GetType()} at position {def}.transformations[{tf}].actions[{act}] is saving data but has no refName. This will cause errors during loading.");
          }
 
          TFDataObject dataObject = savedData.Find(sd => sd.owner == owner);
@@ -59,5 +57,7 @@ namespace LoonyLadle.TFs
             }
          }
       }
+
+      private List<TFDataObject> savedData = new List<TFDataObject>();
    }
 }
