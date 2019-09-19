@@ -18,7 +18,7 @@ namespace LoonyLadle.TFs
       public T LoadData<T>(TransformationAction owner, string key)
       {
          Dictionary<string, object> data = savedData.Find(sd => sd.owner == owner)?.data;
-         return data.TryGetValue(key, out object value) ? (T)value : default(T);
+         return (data != null) && data.TryGetValue(key, out object value) ? (T)value : default(T);
       }
 
       public void SaveData(TransformationAction owner, string key, object value)
