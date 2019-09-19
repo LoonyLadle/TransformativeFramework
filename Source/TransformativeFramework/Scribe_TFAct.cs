@@ -47,9 +47,9 @@ namespace LoonyLadle.TFs
                {
                   foreach (TransformationAction act in tf.actions)
                   {
-                     if (act is TransformationAction)
+                     if (!act.refName.NullOrEmpty())
                      {
-                        cachedTFActs.Add(act as TransformationAction);
+                        cachedTFActs.Add(act);
                      }
                   }
                }
