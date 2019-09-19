@@ -69,7 +69,7 @@
     <Compile Include="TransformationParts\TransformationPart.cs" />
     <Compile Include="Utilities\ColorUtility.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
-    <Compile Include="Tracker\TFColorKeyPair.cs" />
+    <Compile Include="Tracker\TFDataObject.cs" />
     <Compile Include="Utilities\HediffUtility.cs" />
     <Compile Include="WaysToTransform\HediffCompProperties_Transformative.cs" />
     <Compile Include="WaysToTransform\HediffComp_Transformative.cs" />

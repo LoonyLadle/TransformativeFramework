@@ -9,6 +9,8 @@ namespace LoonyLadle.TFs
 {
    public class TFAct_SkinColor : TransformationAction
    {
+      private const string Key = "skinColorTarget";
+
       // A color generator used to determine the skin color.
       public ColorGenerator colorGenerator;
       // How much to change with each transformation.
@@ -19,7 +21,7 @@ namespace LoonyLadle.TFs
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
-         Color target = tracker.GetColorTarget(this);
+         Color target = tracker.LoadData<Color>(this, Key);
 
          if (pawn.story == null)
          {
@@ -45,11 +47,11 @@ namespace LoonyLadle.TFs
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
          
-         Color target = tracker.GetColorTarget(this);
+         Color target = tracker.LoadData<Color>(this, Key);
          if (target.NullOrClear())
          {
             target = colorGenerator.NewRandomizedColor();
-            tracker.SetColorTarget(this, target);
+            tracker.SaveData(this, Key, target);
          }
 
          tracker.skinColor = ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta);

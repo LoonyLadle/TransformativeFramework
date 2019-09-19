@@ -9,6 +9,8 @@ namespace LoonyLadle.TFs
 {
    public class TFAct_HairColor : TransformationAction
    {
+      private const string Key = "hairColorTarget";
+
       // A color generator used to determine the hair color.
       public ColorGenerator colorGenerator;
       // How much to change with each transformation.
@@ -19,7 +21,7 @@ namespace LoonyLadle.TFs
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
-         Color target = tracker.GetColorTarget(this);
+         Color target = tracker.LoadData<Color>(this, Key);
 
          if (pawn.story == null)
          {
@@ -50,11 +52,11 @@ namespace LoonyLadle.TFs
             tracker.hairColorOriginal = pawn.story.hairColor;
          }
 
-         Color target = tracker.GetColorTarget(this);
+         Color target = tracker.LoadData<Color>(this, Key);
          if (target.NullOrClear())
          {
             target = colorGenerator.NewRandomizedColor();
-            tracker.SetColorTarget(this, target);
+            tracker.SaveData(this, Key, target);
          }
 
          pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);

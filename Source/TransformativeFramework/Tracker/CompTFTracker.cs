@@ -16,33 +16,31 @@ namespace LoonyLadle.TFs
       public Color skinColor;
       public float skinColorPower;
 
-      private List<TFColorKeyPair> colorTargets = new List<TFColorKeyPair>();
+      private List<TFDataObject> savedData = new List<TFDataObject>();
 
-      public Color GetColorTarget(TransformationAction action)
+      public T LoadData<T>(TransformationAction owner, string key)
       {
-         return colorTargets.Find(tfcp => tfcp.actionInt == action)?.colorInt ?? Color.clear;
+         Dictionary<string, object> data = savedData.Find(sd => sd.owner == owner)?.data;
+         return data.TryGetValue(key, out object value) ? (T)value : default(T);
       }
 
-      public void SetColorTarget(TransformationAction action, Color color)
+      public void SaveData(TransformationAction owner, string key, object value)
       {
-         if (action.refName.NullOrEmpty())
+         if (owner.refName.NullOrEmpty())
          {
-            string def = action.Transformation.Def.defName;
-            string tf  = action.Transformation.Def.transformations.IndexOf(action.Transformation).ToString();
-            string act = action.Transformation.actions.IndexOf(action).ToString();
-            Log.ErrorOnce($"TransformationAction {def}.transformations[{tf}].actions[{act}] has no refName. This will cause errors during loading.", action.GetHashCode(), true);
+            string def = owner.Transformation.Def.defName;
+            string tf  = owner.Transformation.Def.transformations.IndexOf(owner.Transformation).ToString();
+            string act = owner.Transformation.actions.IndexOf(owner).ToString();
+            Log.Warning($"TransformationAction {def}.transformations[{tf}].actions[{act}] has no refName. This will cause errors during loading.");
          }
 
-         TFColorKeyPair colorTarget = colorTargets.Find(tfcp => tfcp.actionInt == action);
+         TFDataObject dataObject = savedData.Find(sd => sd.owner == owner);
 
-         if (colorTarget == null)
+         if (dataObject == null)
          {
-            colorTargets.Add(new TFColorKeyPair(action, color));
+            dataObject = new TFDataObject(owner);
          }
-         else
-         {
-            colorTarget.colorInt = color;
-         }
+         dataObject.data.Add(key, value);
       }
 
       public override void PostExposeData()
@@ -51,13 +49,13 @@ namespace LoonyLadle.TFs
          Scribe_Values.Look(ref skinColorPower, nameof(skinColorPower));
          Scribe_Values.Look(ref hairColorOriginal, nameof(hairColorOriginal));
          Scribe_Values.Look(ref hairColorPower, nameof(hairColorPower));
-         Scribe_Collections.Look(ref colorTargets, nameof(colorTargets), LookMode.Deep);
+         Scribe_Collections.Look(ref savedData, nameof(savedData), LookMode.Deep);
 
          if (Scribe.mode == LoadSaveMode.LoadingVars)
          {
-            if (colorTargets == null)
+            if (savedData == null)
             {
-               colorTargets = new List<TFColorKeyPair>();
+               savedData = new List<TFDataObject>();
             }
          }
       }
