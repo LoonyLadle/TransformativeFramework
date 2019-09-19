@@ -5,7 +5,7 @@
 namespace LoonyLadle.TFs
 {
    [Flags]
-   public enum TraitOperation : byte
+   public enum Operation : byte
    {
       None = 0,
       Increase = 1,

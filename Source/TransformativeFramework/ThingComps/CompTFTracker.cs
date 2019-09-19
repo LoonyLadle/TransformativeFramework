@@ -16,7 +16,34 @@ namespace LoonyLadle.TFs
       public Color skinColor;
       public float skinColorPower;
 
-      public Dictionary<TransformationAction, Color> colorTargets = new Dictionary<TransformationAction, Color>();
+      private List<TFColorKeyPair> colorTargets = new List<TFColorKeyPair>();
+
+      public Color GetColorTarget(TransformationAction action)
+      {
+         return colorTargets.Find(tfcp => tfcp.actionInt == action)?.colorInt ?? Color.clear;
+      }
+
+      public void SetColorTarget(TransformationAction action, Color color)
+      {
+         if (action.refName.NullOrEmpty())
+         {
+            string def = action.Transformation.Def.defName;
+            string tf  = action.Transformation.Def.transformations.IndexOf(action.Transformation).ToString();
+            string act = action.Transformation.actions.IndexOf(action).ToString();
+            Log.ErrorOnce($"TransformationAction {def}.transformations[{tf}].actions[{act}] has no refName. This will cause errors during loading.", action.GetHashCode(), true);
+         }
+
+         TFColorKeyPair colorTarget = colorTargets.Find(tfcp => tfcp.actionInt == action);
+
+         if (colorTarget == null)
+         {
+            colorTargets.Add(new TFColorKeyPair(action, color));
+         }
+         else
+         {
+            colorTarget.colorInt = color;
+         }
+      }
 
       public override void PostExposeData()
       {
@@ -24,7 +51,15 @@ namespace LoonyLadle.TFs
          Scribe_Values.Look(ref skinColorPower, nameof(skinColorPower));
          Scribe_Values.Look(ref hairColorOriginal, nameof(hairColorOriginal));
          Scribe_Values.Look(ref hairColorPower, nameof(hairColorPower));
-         Scribe_Collections.Look(ref colorTargets, nameof(colorTargets), LookMode.Reference);
+         Scribe_Collections.Look(ref colorTargets, nameof(colorTargets), LookMode.Deep);
+
+         if (Scribe.mode == LoadSaveMode.LoadingVars)
+         {
+            if (colorTargets == null)
+            {
+               colorTargets = new List<TFColorKeyPair>();
+            }
+         }
       }
    }
 }

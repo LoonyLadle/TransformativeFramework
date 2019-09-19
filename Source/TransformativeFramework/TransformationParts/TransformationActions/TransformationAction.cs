@@ -8,6 +8,7 @@ namespace LoonyLadle.TFs
 {
    public abstract class TransformationAction : TransformationPart
    {
+      public string refName;
       public bool ignoreInConditions;
       public MessageTypeDef messageType;
 
@@ -17,7 +18,12 @@ namespace LoonyLadle.TFs
 
       protected abstract IEnumerable<string> ApplyPartWorker(Pawn pawn, object cause);
 
-      protected override void ResolveReferencesSpecial()
+      public string GetUniqueLoadID()
+      {
+         return "TransformationAction_" + Transformation.Def.defName + "_" + refName;
+      }
+
+      public override void ResolveReferences()
       {
          if (messageType == null)
          {

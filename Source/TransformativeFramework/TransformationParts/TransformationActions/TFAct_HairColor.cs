@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RimWorld;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -11,13 +12,14 @@ namespace LoonyLadle.TFs
       // A color generator used to determine the hair color.
       public ColorGenerator colorGenerator;
       // How much to change with each transformation.
-      public float delta = 1f;
+      public float delta = float.MaxValue;
       // Colors with a higher power cannot be overridden by lower ones.
       public float power = 1f;
 
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
+         Color target = tracker.GetColorTarget(this);
 
          if (pawn.story == null)
          {
@@ -32,12 +34,9 @@ namespace LoonyLadle.TFs
          {
             return false;
          }
-         else if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
+         else if (!target.NullOrClear() && pawn.story.hairColor.IndistinguishableFrom(target))
          {
-            if (pawn.story.hairColor.IndistinguishableFrom(colorTarget))
-            {
-               return false;
-            }
+            return false;
          }
          return true;
       }
@@ -46,24 +45,22 @@ namespace LoonyLadle.TFs
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 
-         if (tracker.hairColorOriginal == null)
+         if (tracker.hairColorOriginal.NullOrClear())
          {
             tracker.hairColorOriginal = pawn.story.hairColor;
          }
 
-         Color color;
-         if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
+         Color target = tracker.GetColorTarget(this);
+         if (target.NullOrClear())
          {
-            color = colorTarget;
-         }
-         else
-         {
-            color = colorGenerator.NewRandomizedColor();
-            tracker.colorTargets.Add(this, color);
+            target = colorGenerator.NewRandomizedColor();
+            tracker.SetColorTarget(this, target);
          }
 
-         pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, color, delta);
+         pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
          tracker.hairColorPower = power;
+         pawn.Drawer.renderer.graphics.ResolveAllGraphics();
+         PortraitsCache.SetDirty(pawn);
          yield break;
       }
    }

@@ -15,18 +15,19 @@ namespace LoonyLadle.TFs
       public static bool Prefix(Pawn_StoryTracker __instance, ref Color __result)
       {
          Pawn pawn = (Pawn)typeof(Pawn_StoryTracker).GetField("pawn", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(__instance);
-         CompTFTracker tfData = pawn.GetComp<CompTFTracker>();
-         
-         // Is a TF skin color defined?
-         if (tfData?.skinColor != null)
+         CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
+
+         if (tracker?.skinColor.NullOrClear() ?? true)
          {
-            // Set our result to the transformed color.
-            __result = tfData.skinColor;
+            // Allow the original method.
+            return true;
+         }
+         else
+         {
+            __result = tracker.skinColor;
             // Don't allow original to execute.
             return false;
          }
-         // Allow the original method.
-         else return true;
       }
    }
 }

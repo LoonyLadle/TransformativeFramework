@@ -7,18 +7,18 @@ namespace LoonyLadle.TFs
 {
    public static class MathUtility
    {
-      public static float MoveTowardsOperationClamped(float current, float target, float maxDelta, TraitOperation operation)
+      public static float MoveTowardsOperationClamped(float current, float target, float maxDelta, Operation operation)
       {
-         float min = (operation & TraitOperation.Decrease) == TraitOperation.Decrease ? float.MinValue : current;
-         float max = (operation & TraitOperation.Increase) == TraitOperation.Increase ? float.MaxValue : current;
+         float min = (operation & Operation.Decrease) == Operation.Decrease ? float.MinValue : current;
+         float max = (operation & Operation.Increase) == Operation.Increase ? float.MaxValue : current;
          float result = Mathf.MoveTowards(current, target, maxDelta);
          return Mathf.Clamp(result, min, max);
       }
       
-      public static int MoveTowardsOperationClamped(int current, int target, int maxDelta, TraitOperation operation)
+      public static int MoveTowardsOperationClamped(int current, int target, int maxDelta, Operation operation)
       {
-         int min = (operation & TraitOperation.Decrease) == TraitOperation.Decrease ? int.MinValue : current;
-         int max = (operation & TraitOperation.Increase) == TraitOperation.Increase ? int.MaxValue : current;
+         int min = (operation & Operation.Decrease) == Operation.Decrease ? int.MinValue : current;
+         int max = (operation & Operation.Increase) == Operation.Increase ? int.MaxValue : current;
          int result = MathUtility.MoveTowards(current, target, maxDelta);
          return Mathf.Clamp(result, min, max);
       }

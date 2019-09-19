@@ -51,13 +51,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scribe_TFAct.cs" />
     <Compile Include="ThingComps\CompTFTracker.cs" />
     <Compile Include="HarmonyPatches\HarmonyPatch_PawnStoryTracker_Skincolor_Getter.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_HediffChange.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_HediffRemove.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_ChangeTrait.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_Linked.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HairColor.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_SkinColor.cs" />
-    <Compile Include="Utilities\TraitOperation.cs" />
+    <Compile Include="Enums\Operation.cs" />
     <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
@@ -66,6 +69,8 @@
     <Compile Include="TransformationParts\TransformationPart.cs" />
     <Compile Include="Utilities\ColorUtility.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
+    <Compile Include="Utilities\TFColorKeyPair.cs" />
+    <Compile Include="Utilities\HediffUtility.cs" />
     <Compile Include="WaysToTransform\HediffCompProperties_Transformative.cs" />
     <Compile Include="WaysToTransform\HediffComp_Transformative.cs" />
     <Compile Include="MyStaticConstructor.cs" />
@@ -75,7 +80,7 @@
     <Compile Include="WaysToTransform\IngestionOutcomeDoer_InstantTFs.cs" />
     <Compile Include="Utilities\TraitUtility.cs" />
     <Compile Include="TransformationDef.cs" />
-    <Compile Include="Utilities\ConflictResolutionMode.cs" />
+    <Compile Include="Enums\ConflictResolutionMode.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

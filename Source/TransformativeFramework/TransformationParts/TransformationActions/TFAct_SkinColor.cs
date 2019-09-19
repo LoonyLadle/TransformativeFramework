@@ -1,4 +1,4 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -12,13 +12,14 @@ namespace LoonyLadle.TFs
       // A color generator used to determine the skin color.
       public ColorGenerator colorGenerator;
       // How much to change with each transformation.
-      public float delta = 1f;
+      public float delta = float.MaxValue;
       // Colors with a higher power cannot be overridden by lower ones.
       public float power = 1f;
 
       protected override bool CheckPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
+         Color target = tracker.GetColorTarget(this);
 
          if (pawn.story == null)
          {
@@ -33,12 +34,9 @@ namespace LoonyLadle.TFs
          {
             return false;
          }
-         else if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
+         else if (!target.NullOrClear() && pawn.story.SkinColor.IndistinguishableFrom(target))
          {
-            if (pawn.story.SkinColor.IndistinguishableFrom(colorTarget))
-            {
-               return false;
-            }
+            return false;
          }
          return true;
       }
@@ -46,20 +44,18 @@ namespace LoonyLadle.TFs
       protected override IEnumerable<string> ApplyPartWorker(Pawn pawn, object cause)
       {
          CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
-
-         Color color;
-         if (tracker.colorTargets.TryGetValue(this, out Color colorTarget))
+         
+         Color target = tracker.GetColorTarget(this);
+         if (target.NullOrClear())
          {
-            color = colorTarget;
-         }
-         else
-         {
-            color = colorGenerator.NewRandomizedColor();
-            tracker.colorTargets.Add(this, color);
+            target = colorGenerator.NewRandomizedColor();
+            tracker.SetColorTarget(this, target);
          }
 
-         tracker.skinColor = ColorUtility.MoveTowards(pawn.story.hairColor, color, delta);
+         tracker.skinColor = ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta);
          tracker.skinColorPower = power;
+         pawn.Drawer.renderer.graphics.ResolveAllGraphics();
+         PortraitsCache.SetDirty(pawn);
          yield break;
       }
    }
