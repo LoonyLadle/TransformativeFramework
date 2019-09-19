@@ -13,7 +13,7 @@ namespace LoonyLadle.TFs
          if (Scribe.mode == LoadSaveMode.Saving)
          {
             string text = value == null ? "null" : value.GetUniqueLoadID();
-            Scribe_Values.Look(ref text, label, "null", false);
+            Scribe_Values.Look(ref text, label, "null");
          }
          else if (Scribe.mode == LoadSaveMode.LoadingVars)
          {
