@@ -10,11 +10,10 @@ namespace LoonyLadle.TFs
    {
       public CompProperties_TFTracker Props => (CompProperties_TFTracker)props;
 
-      public Color hairColorOriginal;
-      public float hairColorPower;
-
-      public Color skinColor;
-      public float skinColorPower;
+      public void ClearData(TransformationAction owner, string key)
+      {
+         savedData.Find(sd => sd.owner == owner)?.data?.Remove(key);
+      }
 
       public T LoadData<T>(TransformationAction owner, string key)
       {
@@ -57,6 +56,12 @@ namespace LoonyLadle.TFs
             }
          }
       }
+
+      public Color hairColorOriginal;
+      public float hairColorPower;
+
+      public Color skinColor;
+      public float skinColorPower;
 
       private List<TFDataObject> savedData = new List<TFDataObject>();
    }
