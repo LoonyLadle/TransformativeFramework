@@ -35,7 +35,7 @@ namespace LoonyLadle.TFs
          return result;
       }
 
-      private static List<TransformationAction>GetTFActs()
+      private static List<TransformationAction> GetTFActs()
       {
          if (cachedTFActs == null)
          {
