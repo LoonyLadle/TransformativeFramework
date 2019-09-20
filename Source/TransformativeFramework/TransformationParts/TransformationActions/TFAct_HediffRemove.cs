@@ -34,7 +34,10 @@ namespace LoonyLadle.TFs
          
          foreach (Hediff realHediff in pawn.health.hediffSet.hediffs.Where(h => h.def == hediff && parts.Contains(h.Part)))
          {
-            yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
+            if (realHediff.Visible)
+            {
+               yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
+            }
             pawn.health.RemoveHediff(realHediff);
          }
          yield break;
