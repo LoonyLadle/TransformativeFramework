@@ -3,6 +3,7 @@
   <TFFramework_MessageHediffChanged>{0}'s {1} became {2} because of {3}.</TFFramework_MessageHediffChanged>
   <TFFramework_MessageHediffGained>{0}'s gained {1} from {2}.</TFFramework_MessageHediffGained>
   <TFFramework_MessageHediffLost>{0}'s {1} was removed by {2}.</TFFramework_MessageHediffLost>
+  <TFFramework_MessageSkillPassionChanged>{0}'s passion for {1} is now {2} because of {3}.</TFFramework_MessageSkillPassionChanged>
   <TFFramework_MessageTraitChanged>{0} has gone from {1} to {2} because of {3}.</TFFramework_MessageTraitChanged>
   <TFFramework_MessageTraitLost>{0} is no longer {1} because of {2}.</TFFramework_MessageTraitLost>
   <TFFramework_MessageTraitGained>{0} is now {1} because of {2}.</TFFramework_MessageTraitGained>
