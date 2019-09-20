@@ -65,6 +65,7 @@
     <Compile Include="Enums\Operation.cs" />
     <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasSkill.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_IsHumanlike.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_IsGender.cs" />
