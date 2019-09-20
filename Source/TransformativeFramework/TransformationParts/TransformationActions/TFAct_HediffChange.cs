@@ -89,7 +89,10 @@ namespace LoonyLadle.TFs
                {
                   newHediff.Severity = MathUtility.MoveTowardsOperationClamped(0, target, delta, operation);
                }
-               yield return HediffUtility.MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, ParseCause(cause));
+               if (newHediff.Visible)
+               {
+                  yield return HediffUtility.MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, ParseCause(cause));
+               }
                pawn.health.AddHediff(newHediff);
             }
          }
