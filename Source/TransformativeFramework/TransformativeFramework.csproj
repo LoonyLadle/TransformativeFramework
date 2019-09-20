@@ -65,6 +65,7 @@
     <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_IsHumanlike.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_IsGender.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_Random.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TransformationCondition.cs" />
