@@ -54,6 +54,7 @@
     <Compile Include="Tracker\Scribe_TFAct.cs" />
     <Compile Include="Tracker\CompTFTracker.cs" />
     <Compile Include="HarmonyPatches\HarmonyPatch_PawnStoryTracker_Skincolor_Getter.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_SkillLearn.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_SkillPassion.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HediffChange.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HediffRemove.cs" />
