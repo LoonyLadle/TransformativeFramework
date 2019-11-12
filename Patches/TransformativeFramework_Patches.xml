@@ -15,7 +15,9 @@
   <Operation Class="PatchOperationAdd">
     <xpath>Defs/ThingDef[@Name = "BasePawn"]/comps</xpath>
     <value>
-      <li Class="LoonyLadle.TFs.CompProperties_TFTracker"/>
+      <li>
+        <compClass>LoonyLadle.TFs.CompTFTracker</compClass>
+      </li>
     </value>
   </Operation>
 </Patch>
