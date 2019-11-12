@@ -41,7 +41,7 @@ namespace LoonyLadle.TFs
          {
             cachedTFActs = new List<TransformationAction>();
 
-            foreach (TransformationDef def in DefDatabase<TransformationDef>.AllDefs)
+            foreach (TransformationDef def in DefDatabase<TransformationDef>.AllDefsListForReading)
             {
                foreach (Transformation tf in def.transformations)
                {
