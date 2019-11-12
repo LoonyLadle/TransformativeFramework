@@ -80,7 +80,6 @@
     <Compile Include="WaysToTransform\HediffComp_Transformative.cs" />
     <Compile Include="MyStaticConstructor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tracker\CompProperties_TFTracker.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="WaysToTransform\IngestionOutcomeDoer_InstantTFs.cs" />
     <Compile Include="Utilities\TraitUtility.cs" />
