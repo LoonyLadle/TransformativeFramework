@@ -32,7 +32,7 @@ namespace LoonyLadle.TFs
 				Log.Warning($"Considered setting hair color on pawn {pawn.LabelShort} who lacks a CompTFTracker.");
 				return false;
 			}
-			else if (power < tracker.hairColorPower)
+			else if (power < tracker.LoadData<float>(null, "hairColorPower"))
 			{
 				return false;
 			}
@@ -47,9 +47,9 @@ namespace LoonyLadle.TFs
 		{
 			CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 
-			if (tracker.hairColorOriginal.NullOrClear())
+			if (tracker.LoadData<Color>(null, "hairColorOriginal").NullOrClear())
 			{
-				tracker.hairColorOriginal = pawn.story.hairColor;
+				tracker.SaveData(null, "hairColorOriginal", pawn.story.hairColor);
 			}
 
 			Color target = tracker.LoadData<Color>(this, Key);
@@ -60,7 +60,8 @@ namespace LoonyLadle.TFs
 			}
 
 			pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
-			tracker.hairColorPower = power;
+			//tracker.hairColorPower = power;
+			tracker.SaveData(null, "hairColorPower", power);
 			pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 			PortraitsCache.SetDirty(pawn);
 			yield break;

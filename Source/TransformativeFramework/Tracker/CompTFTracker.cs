@@ -40,10 +40,6 @@ namespace LoonyLadle.TFs
 
 		public override void PostExposeData()
 		{
-			Scribe_Values.Look(ref skinColor, nameof(skinColor));
-			Scribe_Values.Look(ref skinColorPower, nameof(skinColorPower));
-			Scribe_Values.Look(ref hairColorOriginal, nameof(hairColorOriginal));
-			Scribe_Values.Look(ref hairColorPower, nameof(hairColorPower));
 			Scribe_Collections.Look(ref savedData, nameof(savedData), LookMode.Deep);
 
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -55,11 +51,11 @@ namespace LoonyLadle.TFs
 			}
 		}
 
-		public Color hairColorOriginal;
-		public float hairColorPower;
+		//public Color hairColorOriginal;
+		//public float hairColorPower;
 
-		public Color skinColor;
-		public float skinColorPower;
+		//public Color skinColor;
+		//public float skinColorPower;
 
 		private List<TFDataObject> savedData = new List<TFDataObject>();
 	}

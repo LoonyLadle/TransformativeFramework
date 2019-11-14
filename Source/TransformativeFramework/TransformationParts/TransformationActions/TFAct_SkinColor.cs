@@ -32,7 +32,7 @@ namespace LoonyLadle.TFs
 				Log.Warning($"Considered setting skin color on pawn {pawn.LabelShort} who lacks a CompTFTracker.");
 				return false;
 			}
-			else if (power < tracker.skinColorPower)
+			else if (power < tracker.LoadData<float>(null, "skinColorPower"))
 			{
 				return false;
 			}
@@ -54,8 +54,10 @@ namespace LoonyLadle.TFs
 				tracker.SaveData(this, Key, target);
 			}
 
-			tracker.skinColor = ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta);
-			tracker.skinColorPower = power;
+			//tracker.skinColor = ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta);
+			tracker.SaveData(null, "skinColor", ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta));
+			//tracker.skinColorPower = power;
+			tracker.SaveData(null, "skinColorPower", power);
 			pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 			PortraitsCache.SetDirty(pawn);
 			yield break;
