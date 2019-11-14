@@ -2,8 +2,8 @@
 
 namespace LoonyLadle.TFs
 {
-   public enum ConflictResolutionMode : byte
-   {
-      Fail, Remove, Ignore
-   }
+	public enum ConflictResolutionMode : byte
+	{
+		Fail, Remove, Ignore
+	}
 }

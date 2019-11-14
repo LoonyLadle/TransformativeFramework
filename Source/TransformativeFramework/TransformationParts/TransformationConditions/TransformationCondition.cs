@@ -4,10 +4,10 @@
 
 namespace LoonyLadle.TFs
 {
-   public abstract class TransformationCondition : TransformationPart
-   {
-      public bool invert;
+	public abstract class TransformationCondition : TransformationPart
+	{
+		public bool invert;
 
-      public sealed override bool CheckPart(Pawn pawn, object cause) => CheckPartWorker(pawn, cause) != invert;
-   }
+		public sealed override bool CheckPart(Pawn pawn, object cause) => CheckPartWorker(pawn, cause) != invert;
+	}
 }
