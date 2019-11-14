@@ -8,8 +8,6 @@ namespace LoonyLadle.TFs
 {
 	public class CompTFTracker : ThingComp
 	{
-		public CompProperties_TFTracker Props => (CompProperties_TFTracker)props;
-
 		public void ClearData(TransformationAction owner, string key)
 		{
 			savedData.Find(sd => sd.owner == owner)?.data?.Remove(key);
