@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Verse;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -91,6 +92,12 @@ namespace LoonyLadle.TFs
 					}
 					if (newHediff.Visible)
 					{
+						HediffComp_Discoverable discoverable = newHediff.TryGetComp<HediffComp_Discoverable>();
+						if (discoverable != null)
+						{
+							//discoverable.discovered = true;
+							typeof(HediffComp_Discoverable).GetField("discovered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(discoverable, true);
+						}
 						yield return HediffUtility.MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, ParseCause(cause));
 					}
 					pawn.health.AddHediff(newHediff);
