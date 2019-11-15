@@ -29,7 +29,7 @@ namespace LoonyLadle.TFs
 			// Next, check our actions. Unlike conditions, only one action needs to be true.
 			foreach (TransformationAction action in actions)
 			{
-				if (!action.ignoreInConditions && action.CheckPart(pawn, cause))
+				if (action.ignoreInConditions || action.CheckPart(pawn, cause))
 				{
 					return true;
 				}
