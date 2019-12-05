@@ -27,7 +27,7 @@ namespace LoonyLadle.TFs
 			{
 				return null;
 			}
-			TransformationAction result = GetTFActs().Find(act => act.GetUniqueLoadID() == subNode.InnerText);
+			TransformationAction result = TFActs.Find(act => act.GetUniqueLoadID() == subNode.InnerText);
 			if (result == null)
 			{
 				Log.Error($"Could not load reference to {typeof(TransformationAction)} named {subNode.InnerText}");
@@ -35,27 +35,30 @@ namespace LoonyLadle.TFs
 			return result;
 		}
 
-		private static List<TransformationAction> GetTFActs()
+		private static List<TransformationAction> TFActs
 		{
-			if (cachedTFActs == null)
+			get
 			{
-				cachedTFActs = new List<TransformationAction>();
-
-				foreach (TransformationDef def in DefDatabase<TransformationDef>.AllDefsListForReading)
+				if (cachedTFActs == null)
 				{
-					foreach (Transformation tf in def.transformations)
+					cachedTFActs = new List<TransformationAction>();
+
+					foreach (TransformationDef def in DefDatabase<TransformationDef>.AllDefsListForReading)
 					{
-						foreach (TransformationAction act in tf.actions)
+						foreach (Transformation tf in def.transformations)
 						{
-							if (!act.refName.NullOrEmpty())
+							foreach (TransformationAction act in tf.actions)
 							{
-								cachedTFActs.Add(act);
+								if (!act.refName.NullOrEmpty())
+								{
+									cachedTFActs.Add(act);
+								}
 							}
 						}
 					}
 				}
+				return cachedTFActs;
 			}
-			return cachedTFActs;
 		}
 
 		private static List<TransformationAction> cachedTFActs;
