@@ -11,13 +11,12 @@ namespace LoonyLadle.TFs
 		public int degreeMin = int.MinValue;
 		public int degreeMax = int.MaxValue;
 
-		// Return true if pawn has a trait of def traitDef between degreeMin and degreeMax.
 		protected override bool CheckPartWorker(Pawn pawn, object cause)
 		{
 			Trait realTrait = pawn.story?.traits?.GetTrait(trait);
 
 			return realTrait != null 
-				? realTrait.Degree >= degreeMin && realTrait.Degree <= degreeMax 
+				? realTrait.Degree.Between(degreeMin, degreeMax)
 				: false;
 		}
 	}

@@ -8,7 +8,6 @@ namespace LoonyLadle.TFs
 	{
 		public Gender gender;
 
-		// Returns true if pawn is the specified gender.
 		protected override bool CheckPartWorker(Pawn pawn, object cause)
 		{
 			return pawn.gender == gender;

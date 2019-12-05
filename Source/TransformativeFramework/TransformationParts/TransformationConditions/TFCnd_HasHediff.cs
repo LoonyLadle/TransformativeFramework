@@ -18,10 +18,7 @@ namespace LoonyLadle.TFs
 			Hediff realHediff = pawn.health.hediffSet.GetFirstHediffOfDef(hediff, mustBeVisible);
 
 			return realHediff != null
-				? realHediff.Severity >= severityMin
-					&& realHediff.Severity <= severityMax
-					&& realHediff.CurStageIndex >= stageMin
-					&& realHediff.CurStageIndex <= stageMax
+				? realHediff.CurStageIndex.Between(stageMin, stageMax) && realHediff.Severity.Between(severityMin, severityMax)
 				: false;
 		}
 	}
