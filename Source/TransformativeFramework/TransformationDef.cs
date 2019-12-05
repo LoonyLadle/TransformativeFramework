@@ -54,13 +54,23 @@ namespace LoonyLadle.TFs
 			yield break;
 		}
 
+		public override void PostLoad()
+		{
+			base.PostLoad();
+
+			foreach (Transformation transformation in transformations)
+			{
+				transformation.PostLoadSpecial();
+			}
+		}
+
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
 
 			foreach (Transformation transformation in transformations)
 			{
-				transformation.ResolveReferences(this);
+				transformation.ResolveReferencesSpecial(this);
 			}
 		}
 	}

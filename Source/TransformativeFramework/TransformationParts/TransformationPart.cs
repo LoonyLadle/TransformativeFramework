@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Verse;
 
 #pragma warning disable IDE1006 // Naming Styles
 
 namespace LoonyLadle.TFs
 {
-	public abstract class TransformationPart : Editable
+	public abstract class TransformationPart
 	{
 		public Transformation Transformation { get; private set; }
 
@@ -13,10 +14,26 @@ namespace LoonyLadle.TFs
 
 		protected abstract bool CheckPartWorker(Pawn pawn, object cause);
 
-		public void ResolveReferences(Transformation parent)
+		public virtual IEnumerable<string> ConfigErrors()
+		{
+			// Empty method for overriding.
+			yield break;
+		}
+
+		public virtual void PostLoadSpecial(Transformation parent)
+		{
+			// Empty method for overriding.
+		}
+
+		public virtual void ResolveReferencesSpecial()
+		{
+			// Empty method for overriding.
+		}
+
+		public void ResolveReferencesSpecial(Transformation parent)
 		{
 			Transformation = parent;
-			ResolveReferences();
+			ResolveReferencesSpecial();
 		}
 
 		public static string ParseCause(object cause)

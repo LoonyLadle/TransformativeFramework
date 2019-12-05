@@ -84,18 +84,31 @@ namespace LoonyLadle.TFs
 			yield break;
 		}
 
-		public void ResolveReferences(TransformationDef parentDef)
+		public void PostLoadSpecial()
+		{
+			foreach (TransformationCondition condition in conditions)
+			{
+				condition.PostLoadSpecial(this);
+			}
+
+			foreach (TransformationAction action in actions)
+			{
+				action.PostLoadSpecial(this);
+			}
+		}
+
+		public void ResolveReferencesSpecial(TransformationDef parentDef)
 		{
 			Def = parentDef;
 
 			foreach (TransformationCondition condition in conditions)
 			{
-				condition.ResolveReferences(this);
+				condition.ResolveReferencesSpecial(this);
 			}
 
 			foreach (TransformationAction action in actions)
 			{
-				action.ResolveReferences(this);
+				action.ResolveReferencesSpecial(this);
 			}
 		}
 	}

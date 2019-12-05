@@ -23,7 +23,7 @@ namespace LoonyLadle.TFs
 			return "TransformationAction_" + Transformation.Def.defName + "_" + refName;
 		}
 
-		public override void ResolveReferences()
+		public override void ResolveReferencesSpecial()
 		{
 			if (messageType == null)
 			{
