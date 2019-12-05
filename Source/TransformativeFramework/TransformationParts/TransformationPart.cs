@@ -48,7 +48,9 @@ namespace LoonyLadle.TFs
 			}
 			else
 			{
-				throw new ArgumentException("cause is not a known type.");
+				string causeAsString = cause.ToString();
+				Log.Error($"[TransformationFramework] cause \"{causeAsString}\" is not a known type.");
+				return causeAsString;
 			}
 		}
 	}
