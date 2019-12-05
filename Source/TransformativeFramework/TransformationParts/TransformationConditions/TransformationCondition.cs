@@ -8,6 +8,6 @@ namespace LoonyLadle.TFs
 	{
 		public bool invert;
 
-		public sealed override bool CheckPart(Pawn pawn, object cause) => CheckPartWorker(pawn, cause) != invert;
+		public sealed override bool CheckPart(Pawn pawn, object cause) => CheckPartWorker(pawn, cause) ^ invert;
 	}
 }
