@@ -8,12 +8,14 @@ namespace LoonyLadle.TFs
 {
 	public static class Scribe_TFAct
 	{
+		private const string Null = "null";
+
 		public static void Look(ref TransformationAction value, string label)
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				string text = value == null ? "null" : value.GetUniqueLoadID();
-				Scribe_Values.Look(ref text, label, "null");
+				string text = value == null ? Null : value.GetUniqueLoadID();
+				Scribe_Values.Look(ref text, label, Null);
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
@@ -23,7 +25,7 @@ namespace LoonyLadle.TFs
 		
 		private static TransformationAction MyExtractor(XmlNode subNode)
 		{
-			if (subNode == null || subNode.InnerText == null || subNode.InnerText == "null")
+			if (subNode == null || subNode.InnerText == null || subNode.InnerText == Null)
 			{
 				return null;
 			}
