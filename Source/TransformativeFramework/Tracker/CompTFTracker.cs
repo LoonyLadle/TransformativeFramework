@@ -51,12 +51,6 @@ namespace LoonyLadle.TFs
 			}
 		}
 
-		//public Color hairColorOriginal;
-		//public float hairColorPower;
-
-		//public Color skinColor;
-		//public float skinColorPower;
-
 		private List<TFDataObject> savedData = new List<TFDataObject>();
 	}
 }
