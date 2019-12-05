@@ -49,7 +49,7 @@ namespace LoonyLadle.TFs
 				{
 					return false;
 				}
-				if (conflicts == ConflictResolutionMode.Fail && pawn.story.traits.allTraits.Any(t => trait.ConflictsWith(t)))
+				if ((conflicts == ConflictResolutionMode.Fail) && pawn.story.traits.allTraits.Any(t => trait.ConflictsWith(t)))
 				{
 					return false;
 				}
