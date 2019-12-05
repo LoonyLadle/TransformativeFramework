@@ -7,6 +7,16 @@ namespace LoonyLadle.TFs
 {
 	public static class MathUtility
 	{
+		public static bool Between(this float current, float min, float max)
+		{
+			return (current >= min) && (current <= max);
+		}
+
+		public static bool Between(this int current, int min, int max)
+		{
+			return (current >= min) && (current <= max);
+		}
+
 		public static float MoveTowardsOperationClamped(float current, float target, float maxDelta, Operation operation)
 		{
 			float min = (operation & Operation.Decrease) == Operation.Decrease ? float.MinValue : current;
