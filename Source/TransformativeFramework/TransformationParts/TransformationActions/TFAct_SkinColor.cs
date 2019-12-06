@@ -9,7 +9,8 @@ namespace LoonyLadle.TFs
 {
 	public class TFAct_SkinColor : TransformationAction
 	{
-		private const string Key = "skinColorTarget";
+		private const string SkinColorPower = "skinColorPower";
+		private const string SkinColorTarget = "skinColorTarget";
 
 		// A color generator used to determine the skin color.
 		public ColorGenerator colorGenerator;
@@ -21,7 +22,7 @@ namespace LoonyLadle.TFs
 		protected override bool CheckPartWorker(Pawn pawn, object cause)
 		{
 			CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
-			Color target = tracker.LoadData<Color>(this, Key);
+			Color target = tracker.LoadData<Color>(this, SkinColorTarget);
 
 			if (pawn.story == null)
 			{
@@ -32,7 +33,7 @@ namespace LoonyLadle.TFs
 				Log.Warning($"Considered setting skin color on pawn {pawn.LabelShort} who lacks a CompTFTracker.");
 				return false;
 			}
-			else if (power < tracker.LoadData<float>(null, "skinColorPower"))
+			else if (power < tracker.LoadData<float>(null, SkinColorPower))
 			{
 				return false;
 			}
@@ -47,15 +48,15 @@ namespace LoonyLadle.TFs
 		{
 			CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 			
-			Color target = tracker.LoadData<Color>(this, Key);
+			Color target = tracker.LoadData<Color>(this, SkinColorTarget);
 			if (target.NullOrClear())
 			{
 				target = colorGenerator.NewRandomizedColor();
-				tracker.SaveData(this, Key, target);
+				tracker.SaveData(this, SkinColorTarget, target);
 			}
 
 			tracker.SaveData(null, "skinColor", ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta));
-			tracker.SaveData(null, "skinColorPower", power);
+			tracker.SaveData(null, SkinColorPower, power);
 			pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 			PortraitsCache.SetDirty(pawn);
 			yield break;

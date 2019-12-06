@@ -9,7 +9,9 @@ namespace LoonyLadle.TFs
 {
 	public class TFAct_HairColor : TransformationAction
 	{
-		private const string Key = "hairColorTarget";
+		private const string HairColorOriginal = "hairColorOriginal";
+		private const string HairColorPower = "hairColorPower";
+		private const string HairColorTarget = "hairColorTarget";
 
 		// A color generator used to determine the hair color.
 		public ColorGenerator colorGenerator;
@@ -21,7 +23,7 @@ namespace LoonyLadle.TFs
 		protected override bool CheckPartWorker(Pawn pawn, object cause)
 		{
 			CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
-			Color target = tracker.LoadData<Color>(this, Key);
+			Color target = tracker.LoadData<Color>(this, HairColorTarget);
 
 			if (pawn.story == null)
 			{
@@ -32,7 +34,7 @@ namespace LoonyLadle.TFs
 				Log.Warning($"Considered setting hair color on pawn {pawn.LabelShort} who lacks a CompTFTracker.");
 				return false;
 			}
-			else if (power < tracker.LoadData<float>(null, "hairColorPower"))
+			else if (power < tracker.LoadData<float>(null, HairColorPower))
 			{
 				return false;
 			}
@@ -47,21 +49,21 @@ namespace LoonyLadle.TFs
 		{
 			CompTFTracker tracker = pawn.GetComp<CompTFTracker>();
 
-			if (tracker.LoadData<Color>(null, "hairColorOriginal").NullOrClear())
+			if (tracker.LoadData<Color>(null, HairColorOriginal).NullOrClear())
 			{
-				tracker.SaveData(null, "hairColorOriginal", pawn.story.hairColor);
+				tracker.SaveData(null, HairColorOriginal, pawn.story.hairColor);
 			}
 
-			Color target = tracker.LoadData<Color>(this, Key);
+			Color target = tracker.LoadData<Color>(this, HairColorTarget);
 			if (target.NullOrClear())
 			{
 				target = colorGenerator.NewRandomizedColor();
-				tracker.SaveData(this, Key, target);
+				tracker.SaveData(this, HairColorTarget, target);
 			}
 
 			pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
 			//tracker.hairColorPower = power;
-			tracker.SaveData(null, "hairColorPower", power);
+			tracker.SaveData(null, HairColorPower, power);
 			pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 			PortraitsCache.SetDirty(pawn);
 			yield break;
