@@ -54,9 +54,7 @@ namespace LoonyLadle.TFs
 				tracker.SaveData(this, Key, target);
 			}
 
-			//tracker.skinColor = ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta);
 			tracker.SaveData(null, "skinColor", ColorUtility.MoveTowards(pawn.story.SkinColor, target, delta));
-			//tracker.skinColorPower = power;
 			tracker.SaveData(null, "skinColorPower", power);
 			pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 			PortraitsCache.SetDirty(pawn);
