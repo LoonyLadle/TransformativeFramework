@@ -49,7 +49,7 @@ namespace LoonyLadle.TFs
 			else
 			{
 				string causeAsString = cause.ToString();
-				Log.Error($"[TransformationFramework] cause \"{causeAsString}\" is not a known type.");
+				Log.Warning($"[TransformationFramework] cause \"{causeAsString}\" is not a known type.");
 				return causeAsString;
 			}
 		}
