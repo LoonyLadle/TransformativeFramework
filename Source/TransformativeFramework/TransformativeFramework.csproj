@@ -72,6 +72,7 @@
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_Random.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TransformationCondition.cs" />
     <Compile Include="TransformationParts\TransformationPart.cs" />
+    <Compile Include="Utilities\EnumUtility.cs" />
     <Compile Include="Utilities\ColorUtility.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
     <Compile Include="Tracker\TFDataObject.cs" />

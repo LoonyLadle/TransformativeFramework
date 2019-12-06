@@ -45,7 +45,7 @@ namespace LoonyLadle.TFs
 			}
 			else
 			{
-				if ((operation & Operation.Remove) == Operation.Remove)
+				if (operation.HasFlag(Operation.Remove))
 				{
 					return false;
 				}
@@ -66,7 +66,7 @@ namespace LoonyLadle.TFs
 				int adjustedDegree = MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, delta, operation);
 
 				// If our adjusted degree is zero AND EITHER our operational intent is to remove the trait OR no degree data exists at zero, remove the trait.
-				if ((adjustedDegree == 0) && (((operation & Operation.Remove) == Operation.Remove) || (!realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree))))
+				if ((adjustedDegree == 0) && (operation.HasFlag(Operation.Remove) || (!realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree))))
 				{
 					yield return MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, ParseCause(cause));
 					pawn.story.traits.LoseTrait(realTrait);

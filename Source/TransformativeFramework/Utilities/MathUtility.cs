@@ -19,16 +19,16 @@ namespace LoonyLadle.TFs
 
 		public static float MoveTowardsOperationClamped(float current, float target, float maxDelta, Operation operation)
 		{
-			float min = (operation & Operation.Decrease) == Operation.Decrease ? float.MinValue : current;
-			float max = (operation & Operation.Increase) == Operation.Increase ? float.MaxValue : current;
+			float min = operation.HasFlag(Operation.Decrease) ? float.MinValue : current;
+			float max = operation.HasFlag(Operation.Increase) ? float.MaxValue : current;
 			float result = Mathf.MoveTowards(current, target, maxDelta);
 			return Mathf.Clamp(result, min, max);
 		}
 		
 		public static int MoveTowardsOperationClamped(int current, int target, int maxDelta, Operation operation)
 		{
-			int min = (operation & Operation.Decrease) == Operation.Decrease ? int.MinValue : current;
-			int max = (operation & Operation.Increase) == Operation.Increase ? int.MaxValue : current;
+			int min = operation.HasFlag(Operation.Decrease) ? int.MinValue : current;
+			int max = operation.HasFlag(Operation.Increase) ? int.MaxValue : current;
 			int result = MathUtility.MoveTowards(current, target, maxDelta);
 			return Mathf.Clamp(result, min, max);
 		}
