@@ -10,8 +10,6 @@ namespace LoonyLadle.TFs
 		None = 0,
 		Increase = 1,
 		Decrease = 2,
-		Normal = 3,
-		Remove = 4,
-		NormalRemove = 7
+		Normal = 3
 	}
 }
