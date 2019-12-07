@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -50,6 +52,17 @@ namespace LoonyLadle.TFs
 		public static int MoveTowards(int current, int target, int maxDelta)
 		{
 			return Mathf.Abs(target - current) <= maxDelta ? target : current + (Math.Sign(target - current) * maxDelta);
+		}
+
+		public static int Nearest(this IEnumerable<int> values, int nearestTo)
+		{
+			return values.Aggregate((x, y) => Math.Abs(x - nearestTo) < Math.Abs(y - nearestTo) ? x : y);
+		}
+
+		public static int NearestBetween(this IEnumerable<int> values, int nearestTo, int min, int max, int ifNoMatch = 0)
+		{
+			IEnumerable<int> valuesBetween = values.Where(x => x.Between(min, max));
+			return valuesBetween.Any() ? valuesBetween.Nearest(nearestTo) : ifNoMatch;
 		}
 	}
 }
