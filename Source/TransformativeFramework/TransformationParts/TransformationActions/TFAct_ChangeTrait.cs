@@ -19,7 +19,7 @@ namespace LoonyLadle.TFs
 		// How to handle conflicts.
 		public ConflictResolutionMode conflicts = ConflictResolutionMode.Fail;
 		// The intent of changing the trait.
-		public Operation operation = Operation.Normal;
+		public Operation operation = Operation.IncreaseOrDecrease;
 
 		private const string MessageTraitChanged = "TFFramework_MessageTraitChanged";
 		private const string MessageTraitGained = "TFFramework_MessageTraitGained";

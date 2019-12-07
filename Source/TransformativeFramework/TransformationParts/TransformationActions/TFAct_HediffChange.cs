@@ -19,7 +19,7 @@ namespace LoonyLadle.TFs
 		public float delta;
 		// The intent of changing the hediff.
 		// - Valid flags: Increase, Decrease, Remove
-		public Operation operation = Operation.Normal;
+		public Operation operation = Operation.IncreaseOrDecrease;
 		// Defs of body parts to affect.
 		public List<BodyPartDef> partsToAffect;
 
