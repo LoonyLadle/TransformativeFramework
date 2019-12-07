@@ -38,7 +38,7 @@ namespace LoonyLadle.TFs
 
 			if (realTrait != null)
 			{
-				if (realTrait.Degree == target)
+				if (realTrait.Degree == MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, delta, operation))
 				{
 					return false;
 				}
