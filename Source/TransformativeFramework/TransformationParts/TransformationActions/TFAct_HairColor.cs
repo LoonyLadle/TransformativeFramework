@@ -62,7 +62,6 @@ namespace LoonyLadle.TFs
 			}
 
 			pawn.story.hairColor = ColorUtility.MoveTowards(pawn.story.hairColor, target, delta);
-			//tracker.hairColorPower = power;
 			tracker.SaveData(null, HairColorPower, power);
 			pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 			PortraitsCache.SetDirty(pawn);
