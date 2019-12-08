@@ -80,8 +80,7 @@ namespace LoonyLadle.TFs
 					case ConflictResolutionMode.Fail:
 						if (pawn.story.traits.allTraits.Any(t => trait.ConflictsWith(t)))
 						{
-							// CheckPartWorker should have prevented this. If this error happens then something is VERY WRONG.
-							Log.Error($"Tried to add trait {trait} to {pawn} but conflicting traits exist (how did this even happen?).");
+							Log.Error($"Tried to add trait {trait} to {pawn} but conflicting traits exist (CheckPartWorker should have prevented this).");
 							yield break;
 						}
 						break;
