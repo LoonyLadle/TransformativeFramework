@@ -57,6 +57,9 @@ namespace LoonyLadle.TFs
 
 			if (realTrait != null)
 			{
+				AdjustTrait(realTrait, pawn, cause, target, delta, operation, out string report);
+				yield return report;
+				/*
 				int adjustedDegree = MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, delta, operation);
 
 				// If our adjusted degree is zero AND EITHER our operational intent is to remove the trait OR no degree data exists at zero, remove the trait.
@@ -70,6 +73,7 @@ namespace LoonyLadle.TFs
 					yield return MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, trait.DataAtDegree(adjustedDegree).label, ParseCause(cause));
 					pawn.story.traits.SetDegreeOfTrait(realTrait, adjustedDegree);
 				}
+				*/
 			}
 			else
 			{
@@ -92,11 +96,17 @@ namespace LoonyLadle.TFs
 						while (epsilon > 0 && conflictingTraits.Any())
 						{
 							Trait randomTrait = conflictingTraits.RandomElement();
+
+							AdjustTrait(randomTrait, pawn, cause, 0, ref epsilon, Operation.Remove, out string report);
+							conflictingTraits.Remove(randomTrait);
+							yield return report;
+							/*
 							yield return MessageTraitLost.Translate(pawn.LabelShort, randomTrait.Label, ParseCause(cause));
 							// Do not force update until we are done.
 							pawn.story.traits.LoseTrait(randomTrait, false);
 							conflictingTraits.Remove(randomTrait);
 							epsilon--;
+							*/
 						}
 						// Force update now that all conflicting traits are removed.
 						pawn.story.traits.ForceUpdate();
@@ -118,6 +128,29 @@ namespace LoonyLadle.TFs
 			}
 			// We're done here.
 			yield break;
+		}
+
+		protected static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, ref int epsilon, Operation operation, out string report)
+		{
+			int adjustedDegree = MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, epsilon, operation);
+			epsilon -= Math.Abs(realTrait.Degree - adjustedDegree);
+
+			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.
+			if ((adjustedDegree == 0) && !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree))
+			{
+				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, ParseCause(cause));
+				pawn.story.traits.LoseTrait(realTrait);
+			}
+			else
+			{
+				report = MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, realTrait.def.DataAtDegree(adjustedDegree).label, ParseCause(cause));
+				pawn.story.traits.SetDegreeOfTrait(realTrait, adjustedDegree);
+			}
+		}
+
+		protected static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, int delta, Operation operation, out string report)
+		{
+			AdjustTrait(realTrait, pawn, cause, target, ref delta, operation, out report);
 		}
 	}
 }
