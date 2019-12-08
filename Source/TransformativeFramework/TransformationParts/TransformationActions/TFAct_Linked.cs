@@ -20,7 +20,10 @@ namespace LoonyLadle.TFs
 		{
 			foreach (Transformation transformation in linkDef.transformations.Where(tf => tf.anchor == link))
 			{
-				transformation.Apply(pawn, cause);
+				if (transformation.Check(pawn, cause))
+				{
+					transformation.Apply(pawn, cause);
+				}
 			}
 			yield break;
 		}
