@@ -16,7 +16,7 @@ namespace LoonyLadle.TFs
 		public int delta = byte.MaxValue;
 		// The intent of changing the passion.
 		// - Valid flags: Increase, Decrease, Remove
-		public Operation operation = Operation.IncreaseOrDecrease;
+		public Operation operation = Operation.Normal;
 
 		private const string MessageSkillPassionChanged = "TFFramework_MessageSkillPassionChanged"; // {0}'s passion for {1} is now {2} because of {3}.
 
