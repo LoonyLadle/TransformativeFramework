@@ -21,9 +21,9 @@ namespace LoonyLadle.TFs
 		// The intent of changing the trait.
 		public Operation operation = Operation.TraitSpectrum;
 
-		private const string MessageTraitChanged = "TFFramework_MessageTraitChanged";
-		private const string MessageTraitGained = "TFFramework_MessageTraitGained";
-		private const string MessageTraitLost = "TFFramework_MessageTraitLost";
+		protected const string MessageTraitChanged = "TFFramework_MessageTraitChanged"; // {0}'s trait {1} became {2} from {3}.
+		protected const string MessageTraitGained  = "TFFramework_MessageTraitGained";  // {0} gained trait {1} from {2}.
+		protected const string MessageTraitLost    = "TFFramework_MessageTraitLost";    // {0} lost trait {1} from {2}.
 
 		protected override bool CheckPartWorker(Pawn pawn, object cause)
 		{
