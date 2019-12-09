@@ -87,8 +87,6 @@ namespace LoonyLadle.TFs
 							yield return report;
 						}
 						break;
-					default:
-						throw new InvalidOperationException("Unhandled conflictResolution value: " + conflicts.ToString());
 				}
 
 				epsilon *= Math.Sign(delta);
