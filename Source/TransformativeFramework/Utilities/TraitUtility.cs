@@ -8,7 +8,7 @@ namespace LoonyLadle.TFs
 {
 	public static class TraitUtility
 	{
-		public static void LoseTrait(this TraitSet traitSet, Trait trait, bool forceUpdate = true)
+		public static void LoseTrait(this TraitSet traitSet, Trait trait)
 		{
 			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
 			
@@ -18,21 +18,13 @@ namespace LoonyLadle.TFs
 				return;
 			}
 			traitSet.allTraits.Remove(trait);
-
-			if (forceUpdate)
-			{
-				traitSet.ForceUpdate();
-			}
+			traitSet.ForceUpdate();
 		}
 		
-		public static void SetDegreeOfTrait(this TraitSet traitSet, Trait trait, int degree, bool forceUpdate = true)
+		public static void SetDegreeOfTrait(this TraitSet traitSet, Trait trait, int degree)
 		{
 			typeof(Trait).GetField("degree", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(trait, degree);
-
-			if (forceUpdate)
-			{
-				traitSet.ForceUpdate();
-			}
+			traitSet.ForceUpdate();
 		}
 
 		public static void ForceUpdate(this TraitSet traitSet)

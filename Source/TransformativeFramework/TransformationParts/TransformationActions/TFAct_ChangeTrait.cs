@@ -86,8 +86,6 @@ namespace LoonyLadle.TFs
 							conflictingTraits.Remove(randomTrait);
 							yield return report;
 						}
-						// Force update now that all conflicting traits are removed.
-						pawn.story.traits.ForceUpdate();
 						break;
 					default:
 						throw new InvalidOperationException("Unhandled conflictResolution value: " + conflicts.ToString());
