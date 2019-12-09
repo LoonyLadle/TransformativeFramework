@@ -110,7 +110,7 @@ namespace LoonyLadle.TFs
 			epsilon -= Math.Abs(realTrait.Degree - adjustedDegree);
 
 			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.
-			if ((adjustedDegree == 0) && !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree))
+			if ((adjustedDegree == 0) && (operation.HasFlag(Operation.RemoveAtZero) || !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree)))
 			{
 				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, ParseCause(cause));
 				pawn.story.traits.LoseTrait(realTrait);
