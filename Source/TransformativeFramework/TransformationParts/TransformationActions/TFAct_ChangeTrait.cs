@@ -36,7 +36,7 @@ namespace LoonyLadle.TFs
 
 			if (realTrait != null)
 			{
-				if (realTrait.Degree == MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, delta, operation))
+				if (realTrait.Degree == realTrait.NearestPossibleDegreeTo(target, delta, operation))
 				{
 					return false;
 				}
@@ -93,7 +93,7 @@ namespace LoonyLadle.TFs
 
 				if (epsilon != 0)
 				{
-					int adjustedDegree = MathUtility.MoveTowardsOperationClamped(0, target, epsilon, operation);
+					int adjustedDegree = TraitUtility.NearestPossibleDegreeTo(trait, 0, target, epsilon, operation);
 					
 					Trait newTrait = new Trait(trait, adjustedDegree);
 					yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, ParseCause(cause));
@@ -106,7 +106,7 @@ namespace LoonyLadle.TFs
 
 		protected static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, ref int epsilon, Operation operation, out string report)
 		{
-			int adjustedDegree = MathUtility.MoveTowardsOperationClamped(realTrait.Degree, target, epsilon, operation);
+			int adjustedDegree = realTrait.NearestPossibleDegreeTo(target, epsilon, operation);
 			epsilon -= Math.Abs(realTrait.Degree - adjustedDegree);
 
 			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.

@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System.Linq;
 using System.Reflection;
 using Verse;
 
@@ -46,6 +47,25 @@ namespace LoonyLadle.TFs
 			{
 				pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
 			}
+		}
+
+		public static int NearestPossibleDegreeTo(TraitDef trait, int current, int target, int delta, Operation operation)
+		{
+			int adjustedDegree = MathUtility.MoveTowardsOperationClamped(current, target, delta, operation);
+
+			if ((adjustedDegree == 0) || trait.degreeDatas.Any(data => data.degree == adjustedDegree))
+			{
+				return adjustedDegree;
+			}
+			else
+			{
+				return MathUtility.NearestBetween(trait.degreeDatas.Select(data => data.degree), adjustedDegree, current, adjustedDegree);
+			}
+		}
+
+		public static int NearestPossibleDegreeTo(this Trait realTrait, int target, int delta, Operation operation)
+		{
+			return NearestPossibleDegreeTo(realTrait.def, realTrait.Degree, target, delta, operation);
 		}
 	}
 }
