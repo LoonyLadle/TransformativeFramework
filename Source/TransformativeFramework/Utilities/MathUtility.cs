@@ -11,12 +11,12 @@ namespace LoonyLadle.TFs
 	{
 		public static bool Between(this float current, float min, float max)
 		{
-			return (current >= min) && (current <= max);
+			return (current >= Math.Min(min, max)) && (current <= Math.Max(min, max));
 		}
 
 		public static bool Between(this int current, int min, int max)
 		{
-			return (current >= min) && (current <= max);
+			return (current >= Math.Min(min, max)) && (current <= Math.Max(min, max));
 		}
 
 		public static float MoveTowardsOperationClamped(float current, float target, float maxDelta, Operation operation)
