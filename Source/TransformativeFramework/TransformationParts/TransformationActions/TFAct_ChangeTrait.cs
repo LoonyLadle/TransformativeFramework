@@ -126,5 +126,17 @@ namespace LoonyLadle.TFs
 		{
 			AdjustTrait(realTrait, pawn, cause, target, ref delta, operation, out report);
 		}
+
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string error in base.ConfigErrors())
+			{
+				yield return error;
+			}
+			if (trait.degreeDatas.Any(data => data.degree == target))
+			{
+				yield return $"target is {target} but {trait} has no such data";
+			}
+		}
 	}
 }
