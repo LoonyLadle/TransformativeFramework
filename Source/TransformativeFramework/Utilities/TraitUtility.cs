@@ -24,6 +24,13 @@ namespace LoonyLadle.TFs
 		
 		public static void SetDegreeOfTrait(this TraitSet traitSet, Trait trait, int degree)
 		{
+			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
+
+			if (!traitSet.HasTrait(trait.def))
+			{
+				Log.Warning(pawn + " does not have trait " + trait.def);
+				return;
+			}
 			typeof(Trait).GetField("degree", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(trait, degree);
 			traitSet.ForceUpdate();
 		}
