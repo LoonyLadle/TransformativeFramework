@@ -5,13 +5,13 @@ using Verse;
 
 namespace LoonyLadle.TFs
 {
-   [StaticConstructorOnStartup]
-   public static class MyStaticConstructor
-   {
-      static MyStaticConstructor()
-      {
-         HarmonyInstance harmony = HarmonyInstance.Create("rimworld.loonyladle.tfs");
-         harmony.PatchAll();
-      }
-   }
+	[StaticConstructorOnStartup]
+	public static class MyStaticConstructor
+	{
+		static MyStaticConstructor()
+		{
+			HarmonyInstance harmony = HarmonyInstance.Create("rimworld.loonyladle.tfs");
+			harmony.PatchAll();
+		}
+	}
 }

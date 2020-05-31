@@ -54,6 +54,8 @@
     <Compile Include="Tracker\Scribe_TFAct.cs" />
     <Compile Include="Tracker\CompTFTracker.cs" />
     <Compile Include="HarmonyPatches\HarmonyPatch_PawnStoryTracker_Skincolor_Getter.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_SkillLearn.cs" />
+    <Compile Include="TransformationParts\TransformationActions\TFAct_SkillPassion.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HediffChange.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_HediffRemove.cs" />
     <Compile Include="TransformationParts\TransformationActions\TFAct_ChangeTrait.cs" />
@@ -63,10 +65,14 @@
     <Compile Include="Enums\Operation.cs" />
     <Compile Include="TransformationParts\TransformationActions\TransformationAction.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasHediff.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasSkill.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_HasTrait.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_IsHumanlike.cs" />
+    <Compile Include="TransformationParts\TransformationConditions\TFCnd_IsGender.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TFCnd_Random.cs" />
     <Compile Include="TransformationParts\TransformationConditions\TransformationCondition.cs" />
     <Compile Include="TransformationParts\TransformationPart.cs" />
+    <Compile Include="Utilities\EnumUtility.cs" />
     <Compile Include="Utilities\ColorUtility.cs" />
     <Compile Include="Utilities\MathUtility.cs" />
     <Compile Include="Tracker\TFDataObject.cs" />
@@ -75,7 +81,6 @@
     <Compile Include="WaysToTransform\HediffComp_Transformative.cs" />
     <Compile Include="MyStaticConstructor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tracker\CompProperties_TFTracker.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="WaysToTransform\IngestionOutcomeDoer_InstantTFs.cs" />
     <Compile Include="Utilities\TraitUtility.cs" />
