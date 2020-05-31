@@ -32,21 +32,17 @@ namespace LoonyLadle.TFs
 		{
 			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
 
-			if (pawn.workSettings != null)
-			{
-				pawn.workSettings.Notify_GainedTrait();
-			}
-			//pawn.story.Notify_TraitChanged();
-			typeof(Pawn_StoryTracker).GetMethod("Notify_TraitChanged", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(pawn.story, null);
+			pawn.Notify_DisabledWorkTypesChanged();
 
 			if (pawn.skills != null)
 			{
 				pawn.skills.Notify_SkillDisablesChanged();
 			}
-			if (!pawn.Dead && pawn.RaceProps.Humanlike)
+			if (!pawn.Dead && pawn.RaceProps.Humanlike && pawn.needs.mood != null)
 			{
 				pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
 			}
+			MeditationFocusTypeAvailabilityCache.ClearFor(pawn);
 		}
 
 		public static int NearestPossibleDegreeTo(TraitDef trait, int current, int target, int delta, Operation operation)
