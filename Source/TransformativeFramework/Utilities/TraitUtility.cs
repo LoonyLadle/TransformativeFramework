@@ -19,7 +19,7 @@ namespace LoonyLadle.TFs
 				return;
 			}
 			traitSet.allTraits.Remove(trait);
-			traitSet.ForceUpdate();
+			traitSet.ForceUpdate(pawn);
 		}
 		
 		public static void SetDegreeOfTrait(this TraitSet traitSet, Trait trait, int degree)
@@ -32,13 +32,17 @@ namespace LoonyLadle.TFs
 				return;
 			}
 			typeof(Trait).GetField("degree", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(trait, degree);
-			traitSet.ForceUpdate();
+			traitSet.ForceUpdate(pawn);
 		}
 
 		public static void ForceUpdate(this TraitSet traitSet)
 		{
 			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
+			traitSet.ForceUpdate(pawn);
+		}
 
+		public static void ForceUpdate(this TraitSet traitSet, Pawn pawn)
+		{
 			pawn.Notify_DisabledWorkTypesChanged();
 
 			if (pawn.skills != null)
