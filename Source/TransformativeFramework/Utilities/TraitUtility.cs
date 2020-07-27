@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using System.Linq;
 using System.Reflection;
 using Verse;
@@ -9,6 +10,10 @@ namespace LoonyLadle.TFs
 {
 	public static class TraitUtility
 	{
+		public const string MessageTraitChanged = "TFFramework_MessageTraitChanged"; // {0}'s trait {1} became {2} from {3}.
+		public const string MessageTraitGained  = "TFFramework_MessageTraitGained";  // {0} gained trait {1} from {2}.
+		public const string MessageTraitLost    = "TFFramework_MessageTraitLost";    // {0} lost trait {1} from {2}.
+
 		public static void LoseTrait(this TraitSet traitSet, Trait trait)
 		{
 			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
@@ -73,6 +78,29 @@ namespace LoonyLadle.TFs
 		public static int NearestPossibleDegreeTo(this Trait realTrait, int target, int delta, Operation operation)
 		{
 			return NearestPossibleDegreeTo(realTrait.def, realTrait.Degree, target, delta, operation);
+		}
+
+		public static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, ref int epsilon, Operation operation, out string report)
+		{
+			int adjustedDegree = realTrait.NearestPossibleDegreeTo(target, epsilon, operation);
+			epsilon -= Math.Abs(realTrait.Degree - adjustedDegree);
+
+			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.
+			if ((adjustedDegree == 0) && (operation.HasFlag(Operation.RemoveAtZero) || !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree)))
+			{
+				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, StringUtility.ParseCause(cause));
+				pawn.story.traits.LoseTrait(realTrait);
+			}
+			else
+			{
+				report = MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, realTrait.def.DataAtDegree(adjustedDegree).label, StringUtility.ParseCause(cause));
+				pawn.story.traits.SetDegreeOfTrait(realTrait, adjustedDegree);
+			}
+		}
+
+		public static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, int delta, Operation operation, out string report)
+		{
+			AdjustTrait(realTrait, pawn, cause, target, ref delta, operation, out report);
 		}
 	}
 }

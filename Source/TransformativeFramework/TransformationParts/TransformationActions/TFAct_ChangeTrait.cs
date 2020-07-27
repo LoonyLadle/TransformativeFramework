@@ -21,10 +21,6 @@ namespace LoonyLadle.TFs
 		// The intent of changing the trait.
 		public Operation operation = Operation.TraitSpectrum;
 
-		protected const string MessageTraitChanged = "TFFramework_MessageTraitChanged"; // {0}'s trait {1} became {2} from {3}.
-		protected const string MessageTraitGained  = "TFFramework_MessageTraitGained";  // {0} gained trait {1} from {2}.
-		protected const string MessageTraitLost    = "TFFramework_MessageTraitLost";    // {0} lost trait {1} from {2}.
-
 		protected override bool CheckPartWorker(Pawn pawn, object cause)
 		{
 			if (pawn.story?.traits == null)
@@ -57,7 +53,7 @@ namespace LoonyLadle.TFs
 
 			if (realTrait != null)
 			{
-				AdjustTrait(realTrait, pawn, cause, target, delta, operation, out string report);
+				TraitUtility.AdjustTrait(realTrait, pawn, cause, target, delta, operation, out string report);
 				yield return report;
 			}
 			else
@@ -82,7 +78,7 @@ namespace LoonyLadle.TFs
 						{
 							Trait randomTrait = conflictingTraits.RandomElement();
 
-							AdjustTrait(randomTrait, pawn, cause, 0, ref epsilon, Operation.Remove, out string report);
+							TraitUtility.AdjustTrait(randomTrait, pawn, cause, 0, ref epsilon, Operation.Remove, out string report);
 							conflictingTraits.Remove(randomTrait);
 							yield return report;
 						}
@@ -96,35 +92,12 @@ namespace LoonyLadle.TFs
 					int adjustedDegree = TraitUtility.NearestPossibleDegreeTo(trait, 0, target, epsilon, operation);
 					
 					Trait newTrait = new Trait(trait, adjustedDegree);
-					yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, StringUtility.ParseCause(cause));
+					yield return TraitUtility.MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, StringUtility.ParseCause(cause));
 					pawn.story.traits.GainTrait(newTrait);
 				}
 			}
 			// We're done here.
 			yield break;
-		}
-
-		protected static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, ref int epsilon, Operation operation, out string report)
-		{
-			int adjustedDegree = realTrait.NearestPossibleDegreeTo(target, epsilon, operation);
-			epsilon -= Math.Abs(realTrait.Degree - adjustedDegree);
-
-			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.
-			if ((adjustedDegree == 0) && (operation.HasFlag(Operation.RemoveAtZero) || !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree)))
-			{
-				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, StringUtility.ParseCause(cause));
-				pawn.story.traits.LoseTrait(realTrait);
-			}
-			else
-			{
-				report = MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, realTrait.def.DataAtDegree(adjustedDegree).label, StringUtility.ParseCause(cause));
-				pawn.story.traits.SetDegreeOfTrait(realTrait, adjustedDegree);
-			}
-		}
-
-		protected static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, int delta, Operation operation, out string report)
-		{
-			AdjustTrait(realTrait, pawn, cause, target, ref delta, operation, out report);
 		}
 
 		public override IEnumerable<string> ConfigErrors()
