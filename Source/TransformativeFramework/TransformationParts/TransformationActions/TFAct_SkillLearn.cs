@@ -37,7 +37,7 @@ namespace LoonyLadle.TFs
 			realSkill.Learn(delta, true);
 			if (realSkill.Level != oldLevel)
 			{
-				yield return MessageSkillLeveled.Translate(pawn.LabelShort, skill.label, realSkill.Level, ParseCause(cause));
+				yield return MessageSkillLeveled.Translate(pawn.LabelShort, skill.label, realSkill.Level, StringUtility.ParseCause(cause));
 			}
 			yield break;
 		}

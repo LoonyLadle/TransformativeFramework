@@ -35,23 +35,5 @@ namespace LoonyLadle.TFs
 			Transformation = parent;
 			ResolveReferencesSpecial();
 		}
-
-		public static string ParseCause(object cause)
-		{
-			if (cause is Thing thing)
-			{
-				return thing.LabelShort;
-			}
-			else if (cause is Hediff hediff)
-			{
-				return hediff.LabelBase;
-			}
-			else
-			{
-				string causeAsString = cause.ToString();
-				Log.Warning($"[TransformationFramework] cause \"{causeAsString}\" is not a known type.");
-				return causeAsString;
-			}
-		}
 	}
 }

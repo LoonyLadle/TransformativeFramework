@@ -73,11 +73,11 @@ namespace LoonyLadle.TFs
 
 							if (realHediff.ShouldRemove)
 							{
-								yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.LabelBase, ParseCause(cause));
+								yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.LabelBase, StringUtility.ParseCause(cause));
 							}
 							else if (realHediff.CurStageIndex != oldIndex)
 							{
-								yield return HediffUtility.MessageHediffChanged.Translate(pawn.LabelShort, realHediff.LabelBase, realHediff.CurStage.label, ParseCause(cause));
+								yield return HediffUtility.MessageHediffChanged.Translate(pawn.LabelShort, realHediff.LabelBase, realHediff.CurStage.label, StringUtility.ParseCause(cause));
 							}
 						}
 					}
@@ -98,7 +98,7 @@ namespace LoonyLadle.TFs
 							//discoverable.discovered = true;
 							typeof(HediffComp_Discoverable).GetField("discovered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(discoverable, true);
 						}
-						yield return HediffUtility.MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, ParseCause(cause));
+						yield return HediffUtility.MessageHediffGained.Translate(pawn.LabelShort, newHediff.Label, StringUtility.ParseCause(cause));
 					}
 					pawn.health.AddHediff(newHediff);
 				}

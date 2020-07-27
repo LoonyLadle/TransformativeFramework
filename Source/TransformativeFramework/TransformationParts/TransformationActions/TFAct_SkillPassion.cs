@@ -44,7 +44,7 @@ namespace LoonyLadle.TFs
 			SkillRecord realSkill = pawn.skills.GetSkill(skill);
 			
 			Passion adjustedPassion = (Passion)MathUtility.MoveTowardsOperationClamped((byte)realSkill.passion, (byte)target, delta, operation);
-			yield return MessageSkillPassionChanged.Translate(pawn.LabelShort, skill.label, adjustedPassion.ToString().ToLower(), ParseCause(cause));
+			yield return MessageSkillPassionChanged.Translate(pawn.LabelShort, skill.label, adjustedPassion.ToString().ToLower(), StringUtility.ParseCause(cause));
 			realSkill.passion = adjustedPassion;
 			// We're done here.
 			yield break;

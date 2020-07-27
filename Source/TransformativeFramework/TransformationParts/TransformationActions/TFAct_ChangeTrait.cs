@@ -96,7 +96,7 @@ namespace LoonyLadle.TFs
 					int adjustedDegree = TraitUtility.NearestPossibleDegreeTo(trait, 0, target, epsilon, operation);
 					
 					Trait newTrait = new Trait(trait, adjustedDegree);
-					yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, ParseCause(cause));
+					yield return MessageTraitGained.Translate(pawn.LabelShort, newTrait.Label, StringUtility.ParseCause(cause));
 					pawn.story.traits.GainTrait(newTrait);
 				}
 			}
@@ -112,12 +112,12 @@ namespace LoonyLadle.TFs
 			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.
 			if ((adjustedDegree == 0) && (operation.HasFlag(Operation.RemoveAtZero) || !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree)))
 			{
-				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, ParseCause(cause));
+				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, StringUtility.ParseCause(cause));
 				pawn.story.traits.LoseTrait(realTrait);
 			}
 			else
 			{
-				report = MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, realTrait.def.DataAtDegree(adjustedDegree).label, ParseCause(cause));
+				report = MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, realTrait.def.DataAtDegree(adjustedDegree).label, StringUtility.ParseCause(cause));
 				pawn.story.traits.SetDegreeOfTrait(realTrait, adjustedDegree);
 			}
 		}
