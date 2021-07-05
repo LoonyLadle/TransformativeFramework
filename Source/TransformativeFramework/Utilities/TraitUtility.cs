@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using System.Linq;
 using System.Reflection;
 using Verse;
@@ -9,6 +10,10 @@ namespace LoonyLadle.TFs
 {
 	public static class TraitUtility
 	{
+		public const string MessageTraitChanged = "TFFramework_MessageTraitChanged"; // {0}'s trait {1} became {2} from {3}.
+		public const string MessageTraitGained  = "TFFramework_MessageTraitGained";  // {0} gained trait {1} from {2}.
+		public const string MessageTraitLost    = "TFFramework_MessageTraitLost";    // {0} lost trait {1} from {2}.
+
 		public static void LoseTrait(this TraitSet traitSet, Trait trait)
 		{
 			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
@@ -19,34 +24,41 @@ namespace LoonyLadle.TFs
 				return;
 			}
 			traitSet.allTraits.Remove(trait);
-			traitSet.ForceUpdate();
+			traitSet.ForceUpdate(pawn);
 		}
 		
 		public static void SetDegreeOfTrait(this TraitSet traitSet, Trait trait, int degree)
 		{
+			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
+
+			if (!traitSet.HasTrait(trait.def))
+			{
+				Log.Warning(pawn + " does not have trait " + trait.def);
+				return;
+			}
 			typeof(Trait).GetField("degree", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(trait, degree);
-			traitSet.ForceUpdate();
+			traitSet.ForceUpdate(pawn);
 		}
 
 		public static void ForceUpdate(this TraitSet traitSet)
 		{
 			Pawn pawn = (Pawn)typeof(TraitSet).GetField("pawn", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(traitSet);
+			traitSet.ForceUpdate(pawn);
+		}
 
-			if (pawn.workSettings != null)
-			{
-				pawn.workSettings.Notify_GainedTrait();
-			}
-			//pawn.story.Notify_TraitChanged();
-			typeof(Pawn_StoryTracker).GetMethod("Notify_TraitChanged", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(pawn.story, null);
+		public static void ForceUpdate(this TraitSet traitSet, Pawn pawn)
+		{
+			pawn.Notify_DisabledWorkTypesChanged();
 
 			if (pawn.skills != null)
 			{
 				pawn.skills.Notify_SkillDisablesChanged();
 			}
-			if (!pawn.Dead && pawn.RaceProps.Humanlike)
+			if (!pawn.Dead && pawn.RaceProps.Humanlike && pawn.needs.mood != null)
 			{
 				pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
 			}
+			MeditationFocusTypeAvailabilityCache.ClearFor(pawn);
 		}
 
 		public static int NearestPossibleDegreeTo(TraitDef trait, int current, int target, int delta, Operation operation)
@@ -66,6 +78,29 @@ namespace LoonyLadle.TFs
 		public static int NearestPossibleDegreeTo(this Trait realTrait, int target, int delta, Operation operation)
 		{
 			return NearestPossibleDegreeTo(realTrait.def, realTrait.Degree, target, delta, operation);
+		}
+
+		public static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, ref int epsilon, Operation operation, out string report)
+		{
+			int adjustedDegree = realTrait.NearestPossibleDegreeTo(target, epsilon, operation);
+			epsilon -= Math.Abs(realTrait.Degree - adjustedDegree);
+
+			// If our adjusted degree is zero and no degree data exists at zero, remove the trait.
+			if ((adjustedDegree == 0) && (operation.HasFlag(Operation.RemoveAtZero) || !realTrait.def.degreeDatas.Any(data => data.degree == adjustedDegree)))
+			{
+				report = MessageTraitLost.Translate(pawn.LabelShort, realTrait.Label, StringUtility.ParseCause(cause));
+				pawn.story.traits.LoseTrait(realTrait);
+			}
+			else
+			{
+				report = MessageTraitChanged.Translate(pawn.LabelShort, realTrait.Label, realTrait.def.DataAtDegree(adjustedDegree).label, StringUtility.ParseCause(cause));
+				pawn.story.traits.SetDegreeOfTrait(realTrait, adjustedDegree);
+			}
+		}
+
+		public static void AdjustTrait(Trait realTrait, Pawn pawn, object cause, int target, int delta, Operation operation, out string report)
+		{
+			AdjustTrait(realTrait, pawn, cause, target, ref delta, operation, out report);
 		}
 	}
 }

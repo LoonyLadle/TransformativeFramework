@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <ModSyncNinjaData>
-  <ID>aa7af9dd-20b1-4f12-a2bb-dc6d23a81495</ID>
-  <ModName>Transformative Framework</ModName>
-  <Version>0.4.0</Version>
-  <SaveBreaking>False</SaveBreaking>
-  <Host name="Github">
-    <Owner>LoonyLadle</Owner>
-    <Project>TransformativeFramework</Project>
-    <AboutDir>About</AboutDir>
-    <DownloadFrom>ModSyncReleases</DownloadFrom>
-    <Branch>master</Branch>
-  </Host>
+	<ID>aa7af9dd-20b1-4f12-a2bb-dc6d23a81495</ID>
+	<ModName>Transformative Framework</ModName>
+	<Version>0.5.0</Version>
+	<SaveBreaking>False</SaveBreaking>
+	<Host name="Github">
+		<Owner>LoonyLadle</Owner>
+		<Project>TransformativeFramework</Project>
+		<AboutDir>About</AboutDir>
+		<DownloadFrom>ModSyncReleases</DownloadFrom>
+		<Branch>master</Branch>
+	</Host>
 </ModSyncNinjaData>

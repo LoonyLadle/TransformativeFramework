@@ -36,7 +36,7 @@ namespace LoonyLadle.TFs
 			{
 				if (realHediff.Visible)
 				{
-					yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.Label, ParseCause(cause));
+					yield return HediffUtility.MessageHediffLost.Translate(pawn.LabelShort, realHediff.Label, StringUtility.ParseCause(cause));
 				}
 				pawn.health.RemoveHediff(realHediff);
 			}
